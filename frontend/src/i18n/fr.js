@@ -559,14 +559,6 @@ var FRENCH_TRANSLATION = {
 		full_project: "Tout le projet",
 		select_filters: "Sélectionnez les désagrégations désirées",
 
-		collection_form_warning:
-			'<strong>Attention, en modifiant cette page vous risquez de perdre des données.</strong><br/>' +
-			'{{num_inputs}} saisies ont déjà été réalisées sur cette source de données.' +
-			'<ul>' +
-			'	<li>Les modifications sur le calendrier (périodicité, dates) mettront de côté les saisies non concernées par le nouveau planning (sans perte de données)</li>' +
-			'	<li>Les modifications sur la structure auront des conséquence différentes selon le type de modification: référez-vous au guide d\'utilisation pour lister les différents cas de figures</li>' +
-			'</ul>',
-
 		partitions: "Désagrégations",
 
 		add_variable: "Ajouter une variable",

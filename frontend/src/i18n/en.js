@@ -558,14 +558,6 @@ var ENGLISH_TRANSLATION = {
 		full_project: "Full project",
 		select_filters: "Select filters",
 
-		collection_form_warning:
-			'<strong>Take care, if you make changes to this page, you risk losing data</strong><br/>' +
-			'{{num_inputs}} inputs were made with the form as it is.' +
-			'<ul>' +
-			'	<li>Modifications on the planning (periodicity, dates) will cause old inputs to be put apart (with no data loss)</li>' +
-			'	<li>Modifications on the data structure will have variable consequences: please refer to the user guide</li>' +
-			'</ul>',
-
 		partitions: "Disaggregations",
 
 		add_variable: "Add a variable",

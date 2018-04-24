@@ -1,0 +1,141 @@
+<ol class="breadcrumb">
+	<li ng-if="userCtx.type == 'user'"><a ui-sref="main.projects" translate="shared.projects"></a></li>
+	<li class="active" title="{{masterProject.country}}" ng-bind="masterProject.country|maxLength:20"></li>
+	<li class="active" title="{{masterProject.name}}" ng-bind="masterProject.name|maxLength:50"></li>
+	<li><a ui-sref="main.project.structure.collection_form_list" translate="project.collection_form_list"></a></li>
+	<li><a ui-sref="main.project.structure.collection_form_edition({formId: form.id})">{{form.name|maxLength:50}}</a></li>
+	<li class="active" title="{{variable.name}}" ng-bind="variable.name|maxLength:50"></li>
+</ol>
+
+<div class="pull-right">
+	<a ng-click="deleteVariable()" class="btn btn-xxs btn-danger">
+		<i class="fa fa-times"></i>
+		<span translate="project.remove_variable"></span>
+	</a>
+</div>
+
+<form class="form-horizontal" role="form" name="forms.current" novalidate>
+
+	<legend translate="project.variable"></legend>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label" translate="project.variable_name_label"></label>
+		<div class="col-sm-10">
+			<input
+				type="text"
+				class="form-control"
+				ng-model="variable.name"
+				placeholder="{{'project.variable_name_ph'|translate}}" required name="variablename">
+
+			<span class="help-block">
+				<i class="fa fa-info-circle"></i>
+				<span
+					translate="project.collection_edit_help_varname"
+					translate-values="{name: form.name}"></span>
+			</span>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label for="site-agg-select" class="col-sm-2 control-label" translate="project.site_agg_label"></label>
+		<div class="col-sm-10 form-control-static">
+			<select if="site-agg-select" class="form-control" ng-model="variable.geoAgg" name="geoAgg">
+				<option value="sum" translate="project.aggregation.sum"></option>
+				<option value="average" translate="project.aggregation.average"></option>
+				<option value="highest" translate="project.aggregation.highest"></option>
+				<option value="lowest" translate="project.aggregation.lowest"></option>
+				<option value="none" translate="project.aggregation.none"></option>
+			</select>
+
+			<span class="help-block">
+				<i class="fa fa-info-circle"></i>
+				<span
+					translate="project.collection_edit_help_geoagg"
+					translate-values="{name: variable.name}"></span>
+			</span>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label for="time-agg-select" class="col-sm-2 control-label" translate="project.time_agg_label"></label>
+		<div class="col-sm-10 form-control-static">
+			<select id="time-agg-select" class="form-control" ng-model="variable.timeAgg" name="timeAgg">
+				<option value="sum" translate="project.aggregation.sum"></option>
+				<option value="average" translate="project.aggregation.average"></option>
+				<option value="highest" translate="project.aggregation.highest"></option>
+				<option value="lowest" translate="project.aggregation.lowest"></option>
+				<option value="last" translate="project.aggregation.last"></option>
+				<option value="none" translate="project.aggregation.none"></option>
+			</select>
+
+			<span class="help-block">
+				<i class="fa fa-info-circle"></i>
+				<span translate="project.collection_edit_help_timeagg" translate-values="{name: variable.name}"></span>
+			</span>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label" translate="project.partitions_label"></label>
+
+		<div class="col-sm-10 form-control-static">
+			<div class="well" style="padding: 5px;">
+				<ul style="list-style-type: none; padding-left: 5px">
+					<li ng-if="variable.partitions.length == 0" translate="project.no_partitions"></li>
+
+					<li ng-repeat="partition in variable.partitions">
+						<a ng-click="editPartition(element, partition)">
+							<i class="fa fa-pencil"></i>
+							<strong>{{partition.name}}</strong>
+							({{partition.elements|pluck:"name"|join:", "}})
+						</a>
+					</li>
+				</ul>
+
+				<a ng-click="editPartition(element, null)" class="btn btn-xxs btn-default">
+					<i class="fa fa-plus"></i>
+					<span translate="project.add_partition"></span>
+				</a>
+			</div>
+
+			<span class="help-block" style="margin-top: -10px">
+				<i class="fa fa-info-circle"></i>
+				<span
+					translate="project.collection_edit_help_partition"
+					translate-values="{name: variable.name}"></span>
+			</span>
+		</div>
+	</div>
+
+	<div class="form-group" ng-if="variable.partitions.length > 0">
+		<label class="col-sm-2 control-label" translate="project.distribution_label"></label>
+
+		<div class="col-sm-10 form-control-static">
+			<partition-distribution
+				ng-model="variable.distribution"
+				num-partitions="variable.partitions.length"></partition-distribution>
+
+			<span class="help-block" style="margin-top: -10px">
+				<i class="fa fa-info-circle"></i>
+				{{'project.collection_edit_help_distribution'|translate}}
+			</span>
+		</div>
+	</div>
+
+	<div class="form-group" ng-if="variable.partitions.length > 1">
+		<label class="col-sm-2 control-label" translate="project.order_label"></label>
+
+		<div class="col-sm-10 form-control-static">
+			<partition-order
+				ng-model="variable.order"
+				partitions="variable.partitions"
+				distribution="variable.distribution"></partition-order>
+
+			<span class="help-block">
+				<i class="fa fa-info-circle"></i>
+				{{'project.collection_edit_help_order'|translate}}
+			</span>
+		</div>
+	</div>
+
+</form>

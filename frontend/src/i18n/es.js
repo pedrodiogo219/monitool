@@ -558,14 +558,6 @@ var SPANISH_TRANSLATION = {
 		full_project: "Proyecto completo",
 		select_filters: "Seleccione filtros",
 
-		collection_form_warning:
-			'<strong>Cuidado, si hace cambios en esta página, perdera datos</strong><br/>' +
-			'{{num_inputs}} entradas han sido realizadas en esta fuente de datos.' +
-			'<ul>' +
-			'	<li>Los cambios sobre el calendario (periodicidad, fechas) pondra de lado todas las entradas que no entren en las nuevas fechas (sin perder los datos)</li>' +
-			'	<li>Los cambios sobre la estructura de datos tendran consequencias diferentes según el tipo de cambio: lea la guía del usuario</li>' +
-			'</ul>',
-
 		partitions: "Desagregaciones",
 
 		add_variable: "Añadir una variable",

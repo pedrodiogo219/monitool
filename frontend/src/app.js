@@ -268,11 +268,12 @@ window.monitool.config(function($stateProvider, $urlRouterProvider) {
 		url: '/data-source/:formId',
 		templateUrl: 'partials/projects/structure/collection-form-edition.html',
 		controller: 'ProjectCollectionFormEditionController',
-		resolve: {
-			formUsage: function($stateParams, project, Input) {
-				return Input.query({mode: "ids_by_form", projectId: project._id, formId: $stateParams.formId}).$promise;
-			}
-		}
+	});
+
+	$stateProvider.state('main.project.structure.variable_edition', {
+		url: '/data-source/:formId/:variableId',
+		templateUrl: 'partials/projects/structure/variable-edition.html',
+		controller: 'ProjectVariableEditionController'
 	});
 
 	$stateProvider.state('main.project.structure.cross_cutting', {

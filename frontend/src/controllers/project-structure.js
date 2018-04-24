@@ -46,34 +46,32 @@ angular
 				$scope.projectSavable = $scope.projectSavable && $scope.forms.current.$valid;
 		};
 
-		var projectWatch = $scope.$watch('editableProject', onProjectChange, true);
-		var formWatch = $scope.$watch('forms.current.$valid', onProjectChange);
+		$scope.$watch('editableProject', onProjectChange, true);
+		$scope.$watch('forms.current.$valid', onProjectChange);
 
 		// Restore $scope.master to avoid unsaved changes from a given page to pollute changes to another one.
-		$scope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
-			// If project is currently saving, disable all links
-			if ($scope.projectSaveRunning) {
-				e.preventDefault();
-				return;
-			}
+		// $scope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
+		// 	// If project is currently saving, disable all links
+		// 	if ($scope.projectSaveRunning) {
+		// 		e.preventDefault();
+		// 		return;
+		// 	}
 
-			// If project is changed, warn user that changes will be lost.
-			if ($scope.projectChanged) {
-				// then ask the user if he meant it
-				if (window.confirm($filter('translate')('shared.sure_to_leave')))
-					$scope.reset();
-				else
-					e.preventDefault();
-			}
-		});
+		// 	// If project is changed, warn user that changes will be lost.
+		// 	if ($scope.projectChanged) {
+		// 		// then ask the user if he meant it
+		// 		if (window.confirm($filter('translate')('shared.sure_to_leave')))
+		// 			$scope.reset();
+		// 		else
+		// 			e.preventDefault();
+		// 	}
+		// });
 
 		// save, reset and isUnchanged are all defined here, because those are shared between all project views.
-		$scope.save = function(force) {
+		$scope.save = function() {
 			// When button is disabled, do not execute action.
-			if (!force) {
-				if (!$scope.projectSavable || $scope.projectSaveRunning)
-					return;
-			}
+			if (!$scope.projectSavable || $scope.projectSaveRunning)
+				return;
 
 			$scope.projectSaveRunning = true;
 			$scope.editableProject.sanitize(indicators);
@@ -250,57 +248,60 @@ angular
 	 * Controller used by the "main.project.structure.collection_form_edit" state.
 	 * Allows to edit a data sources.
 	 */
-	.controller('ProjectCollectionFormEditionController', function($scope, $state, $stateParams, $filter, $uibModal, $timeout, formUsage, uuid) {
-
-		$scope.container = {}
-		$scope.toggle = function(variableId) {
-			if ($scope.container.visibleElement !== variableId)
-				$scope.container.visibleElement = variableId;
-			else
-				$scope.container.visibleElement = null;
-		}
-
-		/////////////////////
-		// Pass the form to the shared controller over it, to be able
-		// to enable and disable the save button.
-		/////////////////////
-
-		// Put the form index in the scope to be able to access it without searching each time.
-		$scope.currentFormIndex = $scope.editableProject.forms.findIndex(function(f) { return f.id == $stateParams.formId; });
-
-		// The number of inputs is used to show a warning message to user if they risk loosing data.
-		$scope.numInputs = formUsage.length;
-
-		$scope.deleteForm = function() {
-			// Kill the watches
-			w1(); w3();
-
-			// Remove the form
-			$scope.editableProject.forms.splice($scope.currentFormIndex, 1);
-
-			// Give some time for the watches to update the flags
-			$timeout(function() {
-				$scope.$parent.save(true).then(function() {
-					$state.go('main.project.structure.collection_form_list');
-				});
-			});
+	.controller('ProjectCollectionFormEditionController', function($scope, $state, $stateParams, uuid) {
+		var setForm = function() {
+			$scope.form = $scope.editableProject.forms.find(function(f) { return f.id == $stateParams.formId; });
+			if (!$scope.form)
+				$state.go('main.project.structure.collection_form_list');
 		};
 
-		// Watch currentForm. If undefined, means that user clicked "cancel changes" on a new project.
-		var w1 = $scope.$watch('editableProject.forms[currentFormIndex]', function(form) {
-			if (!form) {
-				w1(); w3();
+		setForm();
+		$scope.$on('projectReset', setForm);
+
+		$scope.deleteForm = function() {
+			// Remove the form from the list
+			$scope.editableProject.forms.splice(
+				$scope.editableProject.forms.indexOf($scope.form),
+				1
+			);
+
+			// Go back to the list page, where the user will be allowed to save.
+			$state.go('main.project.structure.collection_form_list');
+		};
+
+		$scope.newVariable = function() {
+			var newVariable = {
+				id: uuid.v4(), name: "", partitions: [], order: 0, distribution: 0, geoAgg: 'sum', timeAgg: 'sum'
+			};
+
+			$scope.form.elements.push(newVariable);
+			$state.go('main.project.structure.variable_edition', {formId: $stateParams.formId, variableId: newVariable.id});
+		};
+
+		$scope.remove = function(item, target) {
+			var index = target.findIndex(function(arrItem) { return item.id === arrItem.id; });
+			if (index !== -1)
+				target.splice(index, 1)
+		};
+	})
+
+	.controller('ProjectVariableEditionController', function($scope, $state, $stateParams, $uibModal, uuid) {
+		var setVariable = function() {
+			$scope.form = $scope.editableProject.forms.find(function(f) { return f.id == $stateParams.formId; });
+
+			if (!$scope.form)
 				$state.go('main.project.structure.collection_form_list');
+			else {
+				$scope.variable = $scope.form.elements.find(function(v) { return v.id == $stateParams.variableId; });
+				if (!$scope.variable)
+					$state.go('main.project.structure.collection_form_edition', {formId: $stateParams.formId});
 			}
-		});
+		};
 
-		// Watch form to invalidate HTML form on some conditions
-		var w3 = $scope.$watch('editableProject.forms[currentFormIndex].elements.length', function(length) {
-			// A datasource is valid only when containing one or more variables.
-			$scope.forms.current.$setValidity('elementsLength', length >= 1);
-		});
+		setVariable();
+		$scope.$on('projectReset', setVariable);
 
-		$scope.editPartition = function(element, currentPartition) {
+		$scope.editPartition = function(currentPartition) {
 			$uibModal.open({
 				controller: 'PartitionEditionModalController',
 				templateUrl: 'partials/projects/structure/partition-modal.html',
@@ -311,38 +312,23 @@ angular
 
 				// Partition was deleted
 				if (currentPartition && !updatedPartition) {
-					element.partitions.splice(element.partitions.indexOf(currentPartition), 1);
+					$scope.variable.partitions.splice($scope.variable.partitions.indexOf(currentPartition), 1);
 					sizeChanged = true;
 				}
 				// Partition was updated
 				else if (currentPartition && updatedPartition)
-					element.partitions[element.partitions.indexOf(currentPartition)] = updatedPartition;
+					$scope.variable.partitions[$scope.variable.partitions.indexOf(currentPartition)] = updatedPartition;
 				// Partition was added
 				else if (!currentPartition && updatedPartition) {
 					sizeChanged = true;
-					element.partitions.push(updatedPartition);
+					$scope.variable.partitions.push(updatedPartition);
 				}
 
 				if (sizeChanged) {
-					element.distribution = Math.ceil(element.partitions.length / 2);
-					element.order = 0;
+					$scope.variable.distribution = Math.ceil($scope.variable.partitions.length / 2);
+					$scope.variable.order = 0;
 				}
 			});
-		};
-
-		$scope.newVariable = function() {
-			var newVariable = {
-				id: uuid.v4(), name: "", partitions: [], order: 0, distribution: 0, geoAgg: 'sum', timeAgg: 'sum'
-			};
-
-			$scope.editableProject.forms[$scope.currentFormIndex].elements.push(newVariable);
-			$scope.toggle(newVariable.id);
-		};
-
-		$scope.remove = function(item, target) {
-			var index = target.findIndex(function(arrItem) { return item.id === arrItem.id; });
-			if (index !== -1)
-				target.splice(index, 1)
 		};
 	})
 
