@@ -27,22 +27,22 @@ module.directive('autoResize', function() {
 	return {
 		restrict: 'A',
 		require: 'ngModel',
-		link: function($scope, element, attributes) {
+		link: function($scope, domElement, attributes) {
 
 			var resize = function() {
-				element[0].style.height = '1px';
-				var newHeight = Math.max(24, element[0].scrollHeight + 3);
+				domElement[0].style.height = '1px';
+				var newHeight = Math.max(24, domElement[0].scrollHeight + 3);
 
-				element[0].style.height = newHeight + "px";
+				domElement[0].style.height = newHeight + "px";
 			};
 
 			$scope.$watch(attributes.ngModel, function(newValue) {
 				resize();
 			});
 
-			element.on("blur", resize);
-			element.on("keyup", resize);
-			element.on("change", resize);
+			domElement.on("blur", resize);
+			domElement.on("keyup", resize);
+			domElement.on("change", resize);
 		}
 	};
 });

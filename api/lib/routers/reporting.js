@@ -75,14 +75,14 @@ router.post('/reporting/project/:prjId', async ctx => {
 	let subQueries = await Promise.all(
 		Object.values(computation.parameters).map(async param => {
 			// 
-			const variableId = param.elementId;
+			const variableId = param.variableId;
 			const extraFilter = param.filter;
 
 			// 
 			const dataSource = project.getDataSourceByVariableId(variableId);
 			const variable = dataSource.getVariableById(variableId);
 			const inputs = await Input.storeInstance.listByVariable(project, dataSource, variable, true);
-			const cube = Cube.fromElement(project, dataSource, variable, inputs);
+			const cube = Cube.fromVariable(project, dataSource, variable, inputs);
 
 			// Merge parameter filters
 			const filter = JSON.parse(JSON.stringify(ctx.request.body.filter));

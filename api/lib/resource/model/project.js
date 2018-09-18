@@ -39,37 +39,37 @@ export default class Project extends DbModel {
 	constructor(data) {
 		super(data, validate);
 
-		// Check that entity ids exist in groups, ...
-		let entityIds = data.entities.map(e => e.id),
-			dataSourceIds = data.forms.map(ds => ds.id);
+		// Check that site ids exist in groups, ...
+		let siteIds = data.sites.map(e => e.id),
+			dataSourceIds = data.dataSources.map(ds => ds.id);
 
 		data.groups.forEach(function(group) {
-			group.members.forEach(function(entityId) {
-				if (entityIds.indexOf(entityId) === -1)
+			group.members.forEach(siteId => {
+				if (siteIds.indexOf(siteId) === -1)
 					throw new Error('invalid_data');
 			});
 		});
 
 		data.users.forEach(function(user) {
-			if (user.entities)
-				user.entities.forEach(function(entityId) {
-					if (entityIds.indexOf(entityId) === -1)
+			if (user.siteIds)
+				user.siteIds.forEach(siteId => {
+					if (siteIds.indexOf(siteId) === -1)
 						throw new Error('invalid_data');
 				});
 
 			if (user.dataSources)
-				user.dataSources.forEach(function(dataSourceId) {
+				user.dataSourceIds.forEach(dataSourceId => {
 					if (dataSourceIds.indexOf(dataSourceId) === -1)
 						throw new Error('invalid_data');
 				});
 		});
 
-		// Create forms & logicalFrames
-		this.forms = this.forms.map(f => new DataSource(f, this));
+		// Create data sources & logicalFrames
+		this.dataSources = this.dataSources.map(f => new DataSource(f, this));
 		this.logicalFrames = this.logicalFrames.map(lf => new LogicalFrame(lf, this));
 
 		// Replace passwords by a salted hash
-		this.users.forEach(function(user) {
+		this.users.forEach(user => {
 			if (user.type === 'partner') {
 				if (typeof user.password === 'string' && !user.password.match('^sha1'))
 					user.password = passwordHash.generate(user.password);
@@ -90,18 +90,18 @@ export default class Project extends DbModel {
 	 * Retrieve a datasource by id.
 	 */
 	getDataSourceById(id) {
-		return this.forms.find(ds => ds.id === id);
+		return this.dataSources.find(ds => ds.id === id);
 	}
 
 	getDataSourceByVariableId(id) {
-		return this.forms.find(ds => ds.getVariableById(id));
+		return this.dataSources.find(ds => ds.getVariableById(id));
 	}
 
 	/**
-	 * Retrieve an entity by id.
+	 * Retrieve a site by id.
 	 */
-	getEntityById(id) {
-		return this.entities.find(e => e.id === id);
+	getSiteById(id) {
+		return this.sites.find(s => s.id === id);
 	}
 
 	/**

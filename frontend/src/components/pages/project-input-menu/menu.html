@@ -25,7 +25,7 @@
 							<span translate="shared.home"></span>
 						</a>
 
-						<a ng-repeat="dataSource in $ctrl.project.forms"
+						<a ng-repeat="dataSource in $ctrl.project.dataSources"
 						   ui-sref="main.project.input.list({dataSourceId: dataSource.id})"
 						   ng-class="{active: ($ctrl.$state.is('main.project.input.list') || $ctrl.$state.is('main.project.input.edit')) && $ctrl.$stateParams.dataSourceId == dataSource.id}"
 						   class="list-group-item"
@@ -36,7 +36,7 @@
 							<span>{{dataSource.name}}</span>
 						</a>
 
-						<a class="list-group-item" ng-if="$ctrl.project.forms.length === 0" disable-if="1">
+						<a class="list-group-item" ng-if="$ctrl.project.dataSources.length === 0" disable-if="1">
 							<i class="fa fa-pencil fa-fw"></i>
 							<span translate="project.no_data_source"></span>
 						</a>

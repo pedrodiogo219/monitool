@@ -24,7 +24,7 @@ const module = angular.module(
 );
 
 
-const isAllowedForm = function(userCtx, scope, element, attributes) {
+const isAllowedForm = function(userCtx, scope, attributes) {
 	var project = scope.$eval(attributes.aclProject),
 		askedFormId = scope.$eval(attributes.aclHasInputForm) || scope.$eval(attributes.aclLacksInputForm);
 
@@ -42,10 +42,10 @@ const isAllowedForm = function(userCtx, scope, element, attributes) {
 
 module.directive('aclHasInputForm', function($rootScope) {
 	return {
-		link: function(scope, element, attributes) {
-			var isAllowed = isAllowedForm($rootScope.userCtx, scope, element, attributes);
+		link: function(scope, domElement, attributes) {
+			var isAllowed = isAllowedForm($rootScope.userCtx, scope, attributes);
 			if (!isAllowed)
-				element.remove();
+				domElement.remove();
 		}
 	}
 });
@@ -53,10 +53,10 @@ module.directive('aclHasInputForm', function($rootScope) {
 
 module.directive('aclLacksInputForm', function($rootScope) {
 	return {
-		link: function(scope, element, attributes) {
-			var isAllowed = isAllowedForm($rootScope.userCtx, scope, element, attributes);
+		link: function(scope, domElement, attributes) {
+			var isAllowed = isAllowedForm($rootScope.userCtx, scope, attributes);
 			if (isAllowed)
-				element.remove();
+				domElement.remove();
 		}
 	}
 });

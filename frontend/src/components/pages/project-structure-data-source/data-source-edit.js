@@ -50,7 +50,7 @@ const module = angular.module(
 
 module.config($stateProvider => {
 
-	$stateProvider.state('main.project.structure.collection_form_edition', {
+	$stateProvider.state('main.project.structure.data_source_edition', {
 		url: '/data-source/:dataSourceId',
 		component: 'dataSourceEdition',
 		resolve: {
@@ -80,7 +80,7 @@ module.component('dataSourceEdition', {
 				// Are we creating a new data source?
 				this.editableDataSource = angular.copy(this.project.forms.find(ds => ds.id == this.dsId));
 				if (!this.editableDataSource) {
-					this.editableDataSource = {id: this.dsId, name: '', periodicity: 'month', entities: [], start: null, end: null, elements: []};
+					this.editableDataSource = {id: this.dsId, name: '', periodicity: 'month', siteIds: [], start: null, end: null, variables: []};
 					this.onFieldChange();
 				}
 			}
@@ -116,13 +116,13 @@ module.component('dataSourceEdition', {
 					this.dsForm && this.dsForm.$valid &&
 
 					// Don't allow to save data sources with no variables.
-					this.editableDataSource.elements.length > 0 &&
+					this.editableDataSource.variables.length > 0 &&
 
 					// Check that the variable have a name for validity.
 					// There is a 'required' directive on the form, however, some inputs are not there
 					// because of a 'ng-if' directive => they are not considered for validation.
 					// (Using ng-show to hide the panels content is too slow: 300ms to render the page).
-					this.editableDataSource.elements.reduce((m, v) => m && v.name.length > 0, true)
+					this.editableDataSource.variables.reduce((m, v) => m && v.name.length > 0, true)
 			});
 		}
 
@@ -136,15 +136,15 @@ module.component('dataSourceEdition', {
 				timeAgg: 'sum'
 			};
 
-			this.editableDataSource.elements.push(newVariable);
+			this.editableDataSource.variables.push(newVariable);
 			this.onToggleVariableClicked(newVariable.id);
 			this.onFieldChange();
 		}
 
 		onRemoveVariableClicked(item) {
-			const index = this.editableDataSource.elements.findIndex(arrItem => item.id === arrItem.id);
+			const index = this.editableDataSource.variables.findIndex(arrItem => item.id === arrItem.id);
 
-			this.editableDataSource.elements.splice(index, 1)
+			this.editableDataSource.variables.splice(index, 1)
 			this.onFieldChange();
 		}
 

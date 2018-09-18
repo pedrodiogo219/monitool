@@ -83,13 +83,13 @@ module.component('projectSites', {
 			});
 		}
 
-		onCreateEntityClicked() {
-			this.editableProject.entities.push({id: uuid(), name: '', start: null, end: null});
+		onCreateSiteClicked() {
+			this.editableProject.sites.push({id: uuid(), name: '', start: null, end: null});
 			this.onFieldChange();
 		}
 
-		onDeleteEntityClicked(entityId) {
-			this.editableProject.entities = this.editableProject.entities.filter(e => e.id !== entityId);
+		onDeleteSiteClicked(siteId) {
+			this.editableProject.sites = this.editableProject.sites.filter(s => s.id !== siteId);
 			this.editableProject.sanitize();
 			this.onFieldChange();
 		}

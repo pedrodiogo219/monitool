@@ -49,17 +49,17 @@ module.component('indicatorFilter', {
 		_computeBounds() {
 			this.minDate = this.project.start;
 			this.maxDate = this.project.end;
-			this.availableSites = this.project.entities;
+			this.availableSites = this.project.sites;
 
 			// Limit bounds against data sources.
 			if (this.indicator.computation) {
 				Object.values(this.indicator.computation.parameters).forEach(param => {
-					const dataSource = this.project.forms.find(ds => {
-						return ds.elements.some(variable => variable.id === param.elementId)
+					const dataSource = this.project.dataSources.find(ds => {
+						return ds.variables.some(variable => variable.id === param.variableId)
 					});
 
-					// The list of available entities is the intersection of the entities for the different variables.
-					this.availableSites = this.availableSites.filter(site => dataSource.entities.includes(site.id));
+					// The list of available sites is the intersection of the sites for the different variables.
+					this.availableSites = this.availableSites.filter(site => dataSource.siteIds.includes(site.id));
 
 					// Same for the dates.
 					if (dataSource.start && this.minDate < dataSource.start)
@@ -76,7 +76,7 @@ module.component('indicatorFilter', {
 				if (this.logicalFramework.end && this.maxDate > this.logicalFramework.end)
 					this.maxDate = dataSource.end;
 
-				this.availableSites = this.availableSites.filter(site => this.logicalFramework.entities.includes(site.id));
+				this.availableSites = this.availableSites.filter(site => this.logicalFramework.siteIds.includes(site.id));
 			}
 
 			this.availableGroups = this.project.groups

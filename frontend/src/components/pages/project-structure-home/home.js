@@ -74,7 +74,7 @@ module.component('projectStructureHome', {
 
 			this.percentages = {
 				basicsDone: this.project.name && this.project.country && this.project.themes.length ? 1 : 0,
-				sitesDone: this.project.entities.length ? 1 : 0,
+				sitesDone: this.project.sites.length ? 1 : 0,
 				referenceLfDone: this.project.logicalFrames.length > 0 ? 1 : 0,
 				otherLfDone: this.project.logicalFrames.length > 1 ? 1 : 0,
 				extraIndicatorsDone2: this.project.extraIndicators.length ? 1 : 0,

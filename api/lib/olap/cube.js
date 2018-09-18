@@ -41,33 +41,33 @@ export default class Cube {
 	}
 
 	/**
-	 * Create a cube from a data source element and all known inputs of the data source.
+	 * Create a cube from a data source variable and all known inputs of the data source.
 	 *
 	 * @param {Project} project
-	 * @param {DataSource} form
-	 * @param {Variable} element
+	 * @param {DataSource} dataSource
+	 * @param {Variable} variable
 	 * @param {Array.<Input>} inputs
 	 * @return {Cube}
 	 *
 	 * @example
 	 * const projectId = '6acefb96-a047-4b77-a698-6a9da3994306';
 	 * const project = await Project.store.get(projectId);
-	 * const inputs = await Input.listByVariable(projectId, project.forms[0].id, project.forms[0].elements[0].id, true);
+	 * const inputs = await Input.listByVariable(projectId, project.dataSources[0].id, project.dataSources[0].variables[0].id, true);
 	 *
-	 * let c = Cube.fromElement(project, project.forms[0], project.forms[0].element[0], inputs);
+	 * let c = Cube.fromElement(project, project.dataSources[0], project.dataSources[0].variables[0], inputs);
 	 * // do stuff here
 	 */
-	static fromElement(project, form, element, inputs) {
+	static fromVariable(project, dataSource, variable, inputs) {
 		////////////
 		// Build dimensions & groups
 		////////////
 		var dimensions = [], dimensionGroups = [];
 
 		// Time
-		// dimensions.push(Dimension.createTime(project, form, element));
-		dimensions.push(Dimension.createTimeFast(project, form, element, inputs));
+		// dimensions.push(Dimension.createTime(project, dataSource, variable));
+		dimensions.push(Dimension.createTimeFast(project, dataSource, variable, inputs));
 		['week_sat', 'week_sun', 'week_mon', 'month_week_sat', 'month_week_sun', 'month_week_mon', 'month', 'quarter', 'semester', 'year'].forEach(periodicity => {
-			// This will fail while indexOf(periodicity) < indexOf(form.periodicity)
+			// This will fail while indexOf(periodicity) < indexOf(dataSource.periodicity)
 			try {
 				dimensionGroups.push(DimensionGroup.createTime(periodicity, dimensions[0]));
 			}
@@ -75,12 +75,12 @@ export default class Cube {
 		});
 
 		// Location
-		dimensions.push(Dimension.createLocation(project, form, element));
+		dimensions.push(Dimension.createLocation(project, dataSource, variable));
 		if (project.groups.length)
-			dimensionGroups.push(DimensionGroup.createLocation(project, form))
+			dimensionGroups.push(DimensionGroup.createLocation(project, dataSource))
 
 		// Disaggregations
-		element.partitions.forEach(partition => {
+		variable.partitions.forEach(partition => {
 			dimensions.push(Dimension.createPartition(partition));
 			if (partition.groups.length)
 				dimensionGroups.push(DimensionGroup.createPartition(partition));
@@ -101,30 +101,30 @@ export default class Cube {
 				length = 1; // Slow!
 
 			if (offset < 0) {
-				winston.log('debug', "[Cube] Skip variable", element.id, 'from', input._id, "(did not find period in timeDim)");
+				winston.log('debug', "[Cube] Skip variable", variable.id, 'from', input._id, "(did not find period in timeDim)");
 				return;
 			}
 
 			if (dimensions[1].items.indexOf(input.entity) < 0) {
-				winston.log('debug', "[Cube] Skip variable", element.id, 'from', input._id, "(did not find entity in spacialDim)");
+				winston.log('debug', "[Cube] Skip variable", variable.id, 'from', input._id, "(did not find entity in spacialDim)");
 				return;
 			}
 			offset = offset * dimensions[1].items.length + dimensions[1].items.indexOf(input.entity);
 
-			element.partitions.forEach(partition => {
+			variable.partitions.forEach(partition => {
 				offset *= partition.elements.length;
 				length *= partition.elements.length;
 			});
 
 			// Retrieve data from input, and copy (if valid).
-			var source = input.values[element.id];
+			var source = input.values[variable.id];
 			if (!source) {
-				winston.log('debug', "[Cube] Skip variable", element.id, 'from', input._id, "(value missing)");
+				winston.log('debug', "[Cube] Skip variable", variable.id, 'from', input._id, "(value missing)");
 				return;
 			}
 
 			if (source.length !== length) {
-				winston.log('debug', "[Cube] Skip variable", element.id, 'from', input._id, "(value size mismatch expected", length, ", found", source.length, ")");
+				winston.log('debug', "[Cube] Skip variable", variable.id, 'from', input._id, "(value size mismatch expected", length, ", found", source.length, ")");
 				return;
 			}
 
@@ -134,7 +134,7 @@ export default class Cube {
 		});
 
 		// Build and fill cube
-		return new Cube(element.id, dimensions, dimensionGroups, data);
+		return new Cube(variable.id, dimensions, dimensionGroups, data);
 	}
 
 	/**
@@ -438,9 +438,7 @@ export default class Cube {
 				if (dimensionGroup) {
 					// Build new filter by concatenating elements.
 					var newFilter = [];
-					oldFilter.forEach(function(v) {
-						newFilter.push(...dimensionGroup.mapping[v]);
-					});
+					oldFilter.forEach(v => newFilter.push(...dimensionGroup.mapping[v]));
 					newFilter.sort();
 
 					// If there are duplicates, remove them.

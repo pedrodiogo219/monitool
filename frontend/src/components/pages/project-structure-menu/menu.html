@@ -33,19 +33,19 @@
 						   class="list-group-item"
 						   disable-if="!$ctrl.project._rev">
 
-							<span class="label label-default pull-right">{{$ctrl.project.entities.length}}</span>
+							<span class="label label-default pull-right">{{$ctrl.project.sites.length}}</span>
 							<i class="fa fa-map-marker fa-fw"></i>
 							<span translate="project.collection_site_list"></span>
 						</a>
 
-						<a ui-sref="main.project.structure.collection_form_list"
+						<a ui-sref="main.project.structure.data_source_list"
 						   class="list-group-item"
-						   ng-class="{active: $ctrl.$state.is('main.project.structure.collection_form_list') || $ctrl.$state.is('main.project.structure.collection_form_edition')}"
+						   ng-class="{active: $ctrl.$state.is('main.project.structure.data_source_list') || $ctrl.$state.is('main.project.structure.data_source_edition')}"
 						   disable-if="!$ctrl.project._rev">
 
-							<span class="label label-default pull-right">{{$ctrl.project.forms.length}}</span>
+							<span class="label label-default pull-right">{{$ctrl.project.dataSources.length}}</span>
 							<i class="fa fa-sign-in fa-fw"></i>
-							<span translate="project.collection_form_list"></span>
+							<span translate="project.data_source_list"></span>
 						</a>
 
 						<a ui-sref="main.project.structure.logical_frame_list"

@@ -46,7 +46,7 @@ export default class Project {
 	 * Does it makes sense to display links for input and reporting?
 	 */
 	get isReadyForReporting() {
-		return this.forms.some(f => f.elements.length && f.entities.length);
+		return this.dataSources.some(ds => ds.variables.length && ds.siteIds.length);
 	}
 
 	constructor(data) {
@@ -65,9 +65,9 @@ export default class Project {
 		this.crossCutting = {};
 		this.extraIndicators = [];
 		this.logicalFrames = [];
-		this.entities = [];
+		this.sites = [];
 		this.groups = [];
-		this.forms = [];
+		this.dataSources = [];
 		this.users = [];
 		this.visibility = 'public';
 
@@ -76,7 +76,7 @@ export default class Project {
 	}
 
 
-	canInputForm(projectUser, formId) {
+	canInputForm(projectUser, dataSourceId) {
 		if (!projectUser)
 			return false;
 
@@ -85,13 +85,13 @@ export default class Project {
 
 		if (projectUser.role === 'input') {
 			// Check if user is explicitly forbidden
-			if (!projectUser.dataSources.includes(formId))
+			if (!projectUser.dataSourceIds.includes(dataSourceId))
 				return false;
 
-			// Check if entities where user is allowed intersect with the data source.
-			var form = this.forms.find(f => f.id === formId);
+			// Check if sites where user is allowed intersect with the data source.
+			var dataSource = this.dataSources.find(ds => ds.id === dataSourceId);
 
-			return !!projectUser.entities.filter(e => form.entities.includes(e)).length;
+			return !!projectUser.siteIds.filter(e => dataSource.siteIds.includes(e)).length;
 		}
 
 		return false;
@@ -99,7 +99,7 @@ export default class Project {
 
 
 	/**
-	 * Scan all internal references to entities, variables, partitions, and partitions elements
+	 * Scan all internal references to sites, variables, partitions, and partitions elements
 	 * inside the project to ensure that there are no broken links and repair them if needed.
 	 */
 	sanitize(indicators) {
@@ -107,18 +107,18 @@ export default class Project {
 			this.visibility = 'private';
 
 		//////////////////
-		// Sanitize links to input entities
+		// Sanitize links to input sites
 		//////////////////
 
-		var entityIds = this.entities.map(e => e.id);
+		var siteIds = this.sites.map(e => e.id);
 
 		// Filter groups members
 		this.groups.forEach(group => {
-			group.members = group.members.filter(e => entityIds.includes(e))
+			group.members = group.members.filter(e => siteIds.includes(e))
 		});
 
 		this.users.forEach(this._sanitizeUser, this);
-		this.forms.forEach(this._sanitizeForm, this);
+		this.dataSources.forEach(this._sanitizeDataSource, this);
 
 		/////////////
 		// Sanitize links to variables from indicators
@@ -188,31 +188,26 @@ export default class Project {
 			}
 
 			var parameter = indicator.computation.parameters[key];
-			var element = null;
-
-			this.forms.forEach(f => {
-				f.elements.forEach(e => {
-					if (e.id === parameter.elementId)
-						element = e;
-				});
-			});
+			var variable = this.dataSources
+				.reduce((memo, ds) => [...memo, ds.variables], [])
+				.find(v => v.id === parameter.variableId);
 
 			// Element was not found.
-			if (!element) {
+			if (!variable) {
 				indicator.computation = null;
 				return;
 			}
 
 			for (var partitionId in parameter.filter) {
-				var partition = element.partitions.find(p => p.id === partitionId);
+				var partition = variable.partitions.find(p => p.id === partitionId);
 				if (!partition) {
 					indicator.computation = null;
 					return;
 				}
 
-				var elementIds = parameter.filter[partitionId];
-				for (var i = 0; i < elementIds.length; ++i) {
-					if (!partition.elements.find(e => e.id === elementIds[i])) {
+				var variableIds = parameter.filter[partitionId];
+				for (var i = 0; i < variableIds.length; ++i) {
+					if (!partition.elements.find(e => e.id === variableIds[i])) {
 						indicator.computation = null;
 						return;
 					}
@@ -222,45 +217,40 @@ export default class Project {
 	}
 
 	/**
-	 * Scan references to entities and remove broken links
+	 * Scan references to sites and remove broken links
 	 * If no valid links remain, change the user to read only mode
 	 */
 	_sanitizeUser(user) {
 		if (user.role === 'input') {
-			user.entities = user.entities.filter(entityId => {
-				return !!this.entities.find(entity => entity.id === entityId);
-			});
+			user.siteIds = user.siteIds.filter(id => this.sites.find(site => site.id === id));
+			user.dataSourceIds = user.dataSourceIds.filter(dsId => this.dataSources.find(ds => ds.id === dsId));
 
-			user.dataSources = user.dataSources.filter(dataSourceId => {
-				return !!this.forms.find(form => form.id === dataSourceId);
-			});
-
-			if (user.entities.length == 0 || user.dataSources.length == 0) {
-				delete user.entities;
-				delete user.dataSources;
+			if (user.siteIds.length == 0 || user.dataSourceIds.length == 0) {
+				delete user.siteIds;
+				delete user.dataSourceIds;
 				user.role = 'read';
 			}
 		}
 		else {
-			delete user.entities;
-			delete user.dataSources;
+			delete user.siteIds;
+			delete user.dataSourceIds;
 		}
 	}
 
-	_sanitizeForm(form) {
-		var entityIds = this.entities.map(e => e.id);
+	_sanitizeDataSource(dataSource) {
+		var siteIds = this.sites.map(site => site.id);
 
-		// Remove deleted entities
-		form.entities = form.entities.filter(e => entityIds.includes(e));
+		// Remove deleted sites
+		dataSource.siteIds = dataSource.siteIds.filter(siteId => siteIds.includes(siteId));
 
 		// Sanitize order and distribution
-		form.elements.forEach(element => {
-			if (element.distribution < 0 || element.distribution > element.partitions.length)
-				element.distribution = Math.floor(element.partitions.length / 2);
+		dataSource.variables.forEach(variable => {
+			if (variable.distribution < 0 || variable.distribution > variable.partitions.length)
+				variable.distribution = Math.floor(variable.partitions.length / 2);
 		});
 
-		if (form.periodicity === 'free')
-			form.start = form.end = null;
+		if (dataSource.periodicity === 'free')
+			dataSource.start = dataSource.end = null;
 	}
 
 	async save() {

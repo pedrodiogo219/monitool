@@ -25,7 +25,7 @@ module.component('projectFilter', {
 
 		$onChanges(changes) {
 			this.filter = {
-				entity: this.project.entities.map(e => e.id),
+				site: this.project.sites.map(e => e.id),
 				_start: this.project.start,
 				_end: this.project.end,
 			};
@@ -35,8 +35,8 @@ module.component('projectFilter', {
 
 		onFilterChange() {
 			const myFilter = angular.copy(this.filter);
-			if (myFilter.entity.length === this.project.entities.length)
-				delete myFilter.entity;
+			if (myFilter.site.length === this.project.sites.length)
+				delete myFilter.site;
 
 			this.onUpdate({filter: myFilter});
 		}

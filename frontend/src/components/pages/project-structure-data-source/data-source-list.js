@@ -36,7 +36,7 @@ const module = angular.module(
 
 
 module.config($stateProvider => {
-	$stateProvider.state('main.project.structure.collection_form_list', {
+	$stateProvider.state('main.project.structure.data_source_list', {
 		url: '/data-source',
 		component: 'dataSourceList'
 	});
@@ -80,7 +80,7 @@ module.component('dataSourceList', {
 		}
 
 		onCreateFormClicked() {
-			this.$state.go('main.project.structure.collection_form_edition', {dataSourceId: uuid()});
+			this.$state.go('main.project.structure.data_source_edition', {dataSourceId: uuid()});
 		}
 
 		onDeleteClicked(dataSource) {

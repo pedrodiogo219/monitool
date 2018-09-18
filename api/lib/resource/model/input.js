@@ -169,14 +169,14 @@ export default class Input extends DbModel {
 		var errors = [];
 
 		// entity must exist in the project
-		if (!project.entities.find(e => this.entity === e.id))
+		if (!project.sites.find(e => this.entity === e.id))
 			errors.push('unknown_entity');
 
 		var dataSource = project.getDataSourceById(this.form);
 		if (dataSource) {
 			// Check that all variables exist and have the proper length
-			for (var i = 0; i < dataSource.elements.length; ++i) {
-				var variable = dataSource.elements[i];
+			for (var i = 0; i < dataSource.variables.length; ++i) {
+				var variable = dataSource.variables[i];
 
 				if (!this.values[variable.id])
 					errors.push('missing_variable_' + variable.id);

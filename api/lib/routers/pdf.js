@@ -111,7 +111,7 @@ router.get('/resources/project/:id/logical-frame/:logicalFrameId.pdf', async ctx
 	// Create document definition.
 	const docDef = project
 		.getLogicalFrameById(ctx.params.logicalFrameId)
-		.getPdfDocDefinition(ctx.request.query.orientation, project.forms, ctx.request.query.language);
+		.getPdfDocDefinition(ctx.request.query.orientation, project.dataSources, ctx.request.query.language);
 
 	docDef.styles = styles;
 

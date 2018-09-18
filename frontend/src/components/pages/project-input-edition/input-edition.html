@@ -2,8 +2,8 @@
 	<li ng-if="$root.userCtx.type == 'user'"><a ui-sref="main.projects" translate="shared.projects"></a></li>
 	<li class="active" title="{{$ctrl.project.country}}" ng-bind="$ctrl.project.country|maxLength:20"></li>
 	<li class="active" title="{{$ctrl.project.name}}" ng-bind="$ctrl.project.name|maxLength:50"></li>
-	<li><a ui-sref="main.project.input.list({dataSourceId: $ctrl.form.id})">{{$ctrl.form.name|maxLength:50}}</a></li>
-	<li class="active">{{$ctrl.entity.name|maxLength:50}}</li>
+	<li><a ui-sref="main.project.input.list({dataSourceId: $ctrl.dataSource.id})">{{$ctrl.dataSource.name|maxLength:50}}</a></li>
+	<li class="active">{{$ctrl.site.name|maxLength:50}}</li>
 	<li class="active">{{$ctrl.input.period|formatSlot}}</li>
 </ol>
 
@@ -15,7 +15,7 @@
 			<label class="col-sm-2 control-label" translate="shared.name"></label>
 
 			<div class="col-sm-10">
-				<input class="form-control disabled" disabled ng-value="$ctrl.form.name" />
+				<input class="form-control disabled" disabled ng-value="$ctrl.dataSource.name" />
 			</div>
 		</div>
 
@@ -23,7 +23,7 @@
 			<label class="col-sm-2 control-label" translate="project.collection_site"></label>
 
 			<div class="col-sm-10">
-				<input class="form-control disabled" disabled ng-value="$ctrl.entity.name" />
+				<input class="form-control disabled" disabled ng-value="$ctrl.site.name" />
 			</div>
 		</div>
 
@@ -44,7 +44,7 @@
 			{{'project.data'|translate}}
 		</legend>
 
-		<div class="form-group" ng-repeat="variable in $ctrl.form.elements">
+		<div class="form-group" ng-repeat="variable in $ctrl.dataSource.variables">
 			<label class="col-sm-2 control-label">{{variable.name}}</label>
 
 			<div class="col-sm-10">

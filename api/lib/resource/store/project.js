@@ -262,11 +262,11 @@ export default class ProjectStore extends Store {
 				var used = {};
 				if (project.crossCutting[indicatorId] && project.crossCutting[indicatorId].computation)
 					for (var key in project.crossCutting[indicatorId].computation.parameters)
-						used[project.crossCutting[indicatorId].computation.parameters[key].elementId] = true;
+						used[project.crossCutting[indicatorId].computation.parameters[key].variableId] = true;
 
 				project.logicalFrames = project.users = project.themes = [];
-				project.forms.forEach(function(f) { f.elements = f.elements.filter(e => used[e.id]); });
-				project.forms = project.forms.filter(f => f.elements.length);
+				project.dataSources.forEach(ds => ds.variables = ds.variables.filter(v => used[v.id]));
+				project.dataSources = project.dataSources.filter(ds => ds.variables.length);
 				project.extraIndicators = [];
 			});
 		}

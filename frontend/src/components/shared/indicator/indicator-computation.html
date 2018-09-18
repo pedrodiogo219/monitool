@@ -53,25 +53,25 @@
 				<span ng-if="$ctrl.computation.type === 'formula'">{{key}}</span>
 			</td>
 
-			<!-- elementId -->
+			<!-- variableId -->
 			<td>
 				<select
 					required
 					class="form-control"
-					ng-model="$ctrl.computation.parameters[key].elementId"
+					ng-model="$ctrl.computation.parameters[key].variableId"
 					ng-change="$ctrl.onOtherChange()"
 					ng-options="v.id as v.name group by v.group for v in $ctrl.selectElements"></select>
 
 			</td>
 
-			<td ng-show="$ctrl.variablesById[$ctrl.computation.parameters[key].elementId].partitions.length">
+			<td ng-show="$ctrl.variablesById[$ctrl.computation.parameters[key].variableId].partitions.length">
 				<partition-filter
 					ng-model="$ctrl.computation.parameters[key].filter"
 					ng-change="$ctrl.onOtherChange()"
-					variable="$ctrl.variablesById[$ctrl.computation.parameters[key].elementId]"></partition-filter>
+					variable="$ctrl.variablesById[$ctrl.computation.parameters[key].variableId]"></partition-filter>
 			</td>
 
-			<td ng-hide="$ctrl.variablesById[$ctrl.computation.parameters[key].elementId].partitions.length"
+			<td ng-hide="$ctrl.variablesById[$ctrl.computation.parameters[key].variableId].partitions.length"
 				style="background-color: #f3f3f3"></td>
 		</tr>
 		<tr>

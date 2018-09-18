@@ -256,7 +256,7 @@ router.put('/resources/input/:id', async ctx => {
 
 	const allowed =
 		(projectRole === 'owner') ||
-		(projectRole === 'input' && projectUser.entities.includes(input.entity) && projectUser.dataSources.includes(input.form));
+		(projectRole === 'input' && projectUser.siteIds.includes(input.entity) && projectUser.dataSourceIds.includes(input.form));
 
 	if (!allowed)
 		throw new Error('forbidden');
@@ -278,7 +278,7 @@ router.delete('/resources/input/:id', async ctx => {
 
 	const allowed =
 		(projectRole === 'owner') ||
-		(projectRole === 'input' && projectUser.entities.includes(input.entity) && projectUser.dataSources.includes(input.form));
+		(projectRole === 'input' && projectUser.siteIds.includes(input.entity) && projectUser.dataSourceIds.includes(input.form));
 
 	if (!allowed)
 		throw new Error('forbidden');

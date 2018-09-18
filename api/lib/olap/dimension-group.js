@@ -37,17 +37,17 @@ export default class DimensionGroup {
 		return new DimensionGroup(parent, dimension.id, mapping);
 	}
 
-	static createLocation(project, form) {
+	static createLocation(project, dataSource) {
 		var groups = {};
 
 		project.groups.forEach(group => {
-			groups[group.id] = group.members.filter(id => form.entities.includes(id));
+			groups[group.id] = group.members.filter(id => dataSource.siteIds.includes(id));
 
 			if (groups[group.id].length === 0)
 				delete groups[group.id];
 		});
 
-		return new DimensionGroup('group', 'entity', groups);
+		return new DimensionGroup('group', 'site', groups);
 	}
 
 	static createPartition(partition) {

@@ -143,19 +143,19 @@ export default class LogicalFrame extends Model {
 
 		let index = 1;
 		myDataSources.forEach(ds => {
-			ds.elements = ds.elements.filter(variable => {
+			ds.variables = ds.variables.filter(variable => {
 				return indicators.some(i => {
 					return i.computation
-						&& Object.values(i.computation.parameters).some(param => param.elementId === variable.id);
+						&& Object.values(i.computation.parameters).some(param => param.variableId === variable.id);
 				});
 			});
 
-			ds.elements.forEach(variable => {
+			ds.variables.forEach(variable => {
 				variable.index = index++;
 			});
 		});
 
-		myDataSources = myDataSources.filter(ds => ds.elements.length > 0);
+		myDataSources = myDataSources.filter(ds => ds.variables.length > 0);
 
 		return [
 			{
@@ -164,8 +164,8 @@ export default class LogicalFrame extends Model {
 					try {
 						indexes = Object.values(i.computation.parameters).map(param => {
 							return myDataSources
-								.find(ds => ds.elements.some(variable => variable.id == param.elementId))
-								.elements.find(variable => variable.id == param.elementId)
+								.find(ds => ds.variables.some(variable => variable.id == param.variableId))
+								.variables.find(variable => variable.id == param.variableId)
 								.index;
 						});
 
@@ -186,7 +186,7 @@ export default class LogicalFrame extends Model {
 				ul: myDataSources.map(ds => {
 					return [
 						ds.name,
-						...ds.elements.map(variable => {
+						...ds.variables.map(variable => {
 							return {text: variable.index + '. ' + variable.name, style: 'italic'}
 						})
 					]

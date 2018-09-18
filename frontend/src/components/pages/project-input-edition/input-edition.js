@@ -36,16 +36,15 @@ const module = angular.module(
 module.config($stateProvider => {
 
 	$stateProvider.state('main.project.input.edit', {
-		url: '/input/:dataSourceId/edit/:period/:entityId',
+		url: '/input/:dataSourceId/edit/:period/:siteId',
 		component: 'projectInputEdition',
 		resolve: {
-			inputs: $stateParams => Input.fetchLasts($stateParams.projectId, $stateParams.entityId, $stateParams.dataSourceId, $stateParams.period),
+			inputs: $stateParams => Input.fetchLasts($stateParams.projectId, $stateParams.siteId, $stateParams.dataSourceId, $stateParams.period),
 			input: inputs => inputs.current,
 			previousInput: inputs => inputs.previous,
 			dsId: $stateParams => $stateParams.dataSourceId,
 			period: $stateParams => $stateParams.period,
-			siteId: $stateParams => $stateParams.entityId
-
+			siteId: $stateParams => $stateParams.siteId
 		}
 	});
 });
@@ -95,8 +94,8 @@ module.component('projectInputEdition', {
 
 		$onChanges(changes) {
 			this.isNew = false;
-			this.form = this.project.forms.find(f => f.id === this.dsId);
-			this.entity = this.project.entities.find(f => f.id === this.siteId);
+			this.dataSource = this.project.dataSources.find(ds => ds.id === this.dsId);
+			this.site = this.project.sites.find(site => site.id === this.siteId);
 
 			if (!this.input) {
 				const currentInputId = ['input', this.project._id, this.dsId, this.siteId, this.period].join(':');
@@ -111,7 +110,7 @@ module.component('projectInputEdition', {
 					values: {}
 				});
 
-				this.form.elements.forEach(variable => {
+				this.dataSource.variables.forEach(variable => {
 					const numFields = variable.partitions.reduce((m, p) => m * p.elements.length, 1);
 					this.input.values[variable.id] = new Array(numFields);
 					this.input.values[variable.id].fill(0);

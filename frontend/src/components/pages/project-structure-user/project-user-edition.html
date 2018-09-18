@@ -107,11 +107,11 @@
 		</div>
 
 		<div class="form-group" ng-if="$ctrl.user.role == 'input'">
-			<label for="entities-input" class="col-sm-3 control-label" translate="project.collection_site_list"></label>
+			<label for="sites-input" class="col-sm-3 control-label" translate="project.collection_site_list"></label>
 			<div class="col-sm-9">
 				<element-filter
-					ng-model="$ctrl.user.entities"
-					elements="$ctrl.entities"
+					ng-model="$ctrl.user.siteIds"
+					elements="$ctrl.sites"
 					groups="$ctrl.groups"></element-filter>
 
 				<p class="help-block">
@@ -122,9 +122,9 @@
 		</div>
 
 		<div class="form-group" ng-if="$ctrl.user.role == 'input'">
-			<label for="dataSources-input" class="col-sm-3 control-label" translate="project.collection_form_list"></label>
+			<label for="dataSources-input" class="col-sm-3 control-label" translate="project.data_source_list"></label>
 			<div class="col-sm-9">
-				<element-filter ng-model="$ctrl.user.dataSources" elements="$ctrl.dataSources"></element-filter>
+				<element-filter ng-model="$ctrl.user.dataSourceIds" elements="$ctrl.dataSources"></element-filter>
 
 				<p class="help-block">
 					<i class="fa fa-info-circle"></i>

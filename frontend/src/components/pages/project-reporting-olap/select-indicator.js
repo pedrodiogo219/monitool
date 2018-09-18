@@ -101,11 +101,11 @@ module.component('selectIndicator', {
 				});
 			});
 
-			this.project.forms.forEach(dataSource => {
-				dataSource.elements.forEach(variable => {
+			this.project.dataSources.forEach(dataSource => {
+				dataSource.variables.forEach(variable => {
 					choices.push({
 						name: variable.name,
-						group: this.translate('project.collection_form') + ": " + dataSource.name,
+						group: this.translate('project.data_source') + ": " + dataSource.name,
 						indicator: {
 							display: variable.name,
 							baseline: null,
@@ -114,7 +114,7 @@ module.component('selectIndicator', {
 								formula: 'a',
 								parameters: {
 									a: {
-										elementId: variable.id,
+										variableId: variable.id,
 										filter: {}
 									}
 								}

@@ -36,8 +36,8 @@ module.component('projectGroupBy', {
 			];
 
 			return timePeriodicities.filter(periodicity => {
-				for (var i = 0; i < this.project.forms.length; ++i) {
-					var dataSource = this.project.forms[i];
+				for (var i = 0; i < this.project.dataSources.length; ++i) {
+					var dataSource = this.project.dataSources[i];
 
 					if (dataSource.periodicity == 'free' || dataSource.periodicity === periodicity)
 						return true;

@@ -126,12 +126,12 @@ export default {
 			themes_move: "Reordonne les thématiques du projet",
 			themes_remove: "Retire une thématique du projet",
 
-			entities_add: "Ajoute le lieu <code>{{item.name}}</code>",
-			entities_move: "Reordonne les lieux du projet",
-			entities_remove: "Supprime le lieu <code>{{item.name}}</code>",
-			entities_name_replace: "Renomme le lieu <code>{{before}}</code> en <code>{{after}}</code>",
-			entities_start_replace: "Change la date de début du lieu <code>{{entity.name}}</code> de <code>{{before|date}}</code> vers <code>{{after|date}}</code>",
-			entities_end_replace: "Change la date de fin du lieu <code>{{entity.name}}</code> de <code>{{before|date}}</code> vers <code>{{after|date}}</code>",
+			sites_add: "Ajoute le lieu <code>{{item.name}}</code>",
+			sites_move: "Reordonne les lieux du projet",
+			sites_remove: "Supprime le lieu <code>{{item.name}}</code>",
+			sites_name_replace: "Renomme le lieu <code>{{before}}</code> en <code>{{after}}</code>",
+			sites_start_replace: "Change la date de début du lieu <code>{{site.name}}</code> de <code>{{before|date}}</code> vers <code>{{after|date}}</code>",
+			sites_end_replace: "Change la date de fin du lieu <code>{{site.name}}</code> de <code>{{before|date}}</code> vers <code>{{after|date}}</code>",
 
 			groups_add: "Ajoute le groupe <code>{{item.name}}</code>",
 			groups_move: "Reordonne les groupes du projet",
@@ -147,60 +147,60 @@ export default {
 			users_name_replace: "Renomme le partenaire de <code>{{before}}</code> vers <code>{{after}}</code>",
 			users_password_replace: "Change le mot de passe de <code>{{user.id || user.username}}</code>",
 			users_role_replace: "Change le role de <code>{{user.id || user.username}}</code> de <code>{{before}}</code> vers <code>{{after}}</code>",
-			users_entities_add: "Autorise <code>{{user.id || user.username}}</code> à saisir sur le lieu <code>{{item.name}}</code>",
-			users_entities_move: "Reordonne les lieux associés à l'utilisateur <code>{{user.id || user.username}}</code>",
-			users_entities_remove: "Retire l'autorisation de saisir sur <code>{{item.name}}</code> à l'utilisateur <code>{{user.id || user.username}}</code>",
-			users_dataSources_add: "Autorise <code>{{user.id || user.username}}</code> à saisir sur la source de données <code>{{item.name}}</code>",
-			users_dataSources_move: "Reordonne les sources de données associées à l'utilisateur <code>{{user.id || user.username}}</code>",
-			users_dataSources_remove: "Retire l'autorisation de saisir sur <code>{{item.name}}</code> à l'utilisateur <code>{{user.id || user.username}}</code>",
+			users_siteIds_add: "Autorise <code>{{user.id || user.username}}</code> à saisir sur le lieu <code>{{item.name}}</code>",
+			users_siteIds_move: "Reordonne les lieux associés à l'utilisateur <code>{{user.id || user.username}}</code>",
+			users_siteIds_remove: "Retire l'autorisation de saisir sur <code>{{item.name}}</code> à l'utilisateur <code>{{user.id || user.username}}</code>",
+			users_dataSourceIds_add: "Autorise <code>{{user.id || user.username}}</code> à saisir sur la source de données <code>{{item.name}}</code>",
+			users_dataSourceIds_move: "Reordonne les sources de données associées à l'utilisateur <code>{{user.id || user.username}}</code>",
+			users_dataSourceIds_remove: "Retire l'autorisation de saisir sur <code>{{item.name}}</code> à l'utilisateur <code>{{user.id || user.username}}</code>",
 
-			forms_add: "Ajoute la source de données <code>{{item.name}}</code>",
-			forms_move: "Reordonne les sources de données du projet",
-			forms_remove: "Supprime la source de données <code>{{item.name}}</code>",
-			forms_name_replace: "Renomme la source de données <code>{{before}}</code> en <code>{{after}}</code>",
-			forms_periodicity_replace: "Change la périodicité de <code>{{form.name}}</code> de <code>{{before}}</code> vers <code>{{after}}</code>",
-			forms_start_replace: "Change la date de début de <code>{{form.name}}</code> de <code>{{before|date}}</code> vers <code>{{after|date}}</code>",
-			forms_end_replace: "Change la date de fin de <code>{{form.name}}</code> de <code>{{before|date}}</code> vers <code>{{after|date}}</code>",
+			dataSource_add: "Ajoute la source de données <code>{{item.name}}</code>",
+			dataSource_move: "Reordonne les sources de données du projet",
+			dataSource_remove: "Supprime la source de données <code>{{item.name}}</code>",
+			dataSource_name_replace: "Renomme la source de données <code>{{before}}</code> en <code>{{after}}</code>",
+			dataSource_periodicity_replace: "Change la périodicité de <code>{{dataSource.name}}</code> de <code>{{before}}</code> vers <code>{{after}}</code>",
+			dataSource_start_replace: "Change la date de début de <code>{{dataSource.name}}</code> de <code>{{before|date}}</code> vers <code>{{after|date}}</code>",
+			dataSource_end_replace: "Change la date de fin de <code>{{dataSource.name}}</code> de <code>{{before|date}}</code> vers <code>{{after|date}}</code>",
 
-			forms_entities_add: "Ajoute le lieu <code>{{item.name}}</code> à la source de données <code>{{form.name}}</code>",
-			forms_entities_move: "Reordonne les lieux de la source de données <code>{{form.name}}</code>",
-			forms_entities_remove: "Retire le lieu <code>{{item.name}}</code> de la source de données <code>{{form.name}}</code>",
+			dataSource_siteIds_add: "Ajoute le lieu <code>{{item.name}}</code> à la source de données <code>{{dataSource.name}}</code>",
+			dataSource_siteIds_move: "Reordonne les lieux de la source de données <code>{{dataSource.name}}</code>",
+			dataSource_siteIds_remove: "Retire le lieu <code>{{item.name}}</code> de la source de données <code>{{dataSource.name}}</code>",
 
-			forms_elements_add: "Ajoute la variable <code>{{item.name}}</code> dans <code>{{form.name}}</code>",
-			forms_elements_move: "Reordonne les variables de la source de données <code>{{form.name}}</code>",
-			forms_elements_remove: "Supprime la variable <code>{{item.name}}</code> dans <code>{{form.name}}</code>",
-			forms_elements_name_replace: "Renomme la variable <code>{{before}}</code> en <code>{{after}}</code>",
-			forms_elements_geoAgg_replace: "Change la règle d'aggrégation (lieux) de <code>{{variable.name}}</code> de <code>{{before}}</code> vers <code>{{after}}</code>",
-			forms_elements_timeAgg_replace: "Change la règle d'aggrégation (temps) de <code>{{variable.name}}</code> de <code>{{before}}</code> vers <code>{{after}}</code>",
-			forms_elements_order_replace: "Change la présentation de la saisie de la variable <code>{{variable.name}}</code>",
-			forms_elements_distribution_replace: "Change la présentation de la saisie de la variable <code>{{variable.name}}</code>",
+			dataSource_variables_add: "Ajoute la variable <code>{{item.name}}</code> dans <code>{{dataSource.name}}</code>",
+			dataSource_variables_move: "Reordonne les variables de la source de données <code>{{dataSource.name}}</code>",
+			dataSource_variables_remove: "Supprime la variable <code>{{item.name}}</code> dans <code>{{dataSource.name}}</code>",
+			dataSource_variables_name_replace: "Renomme la variable <code>{{before}}</code> en <code>{{after}}</code>",
+			dataSource_variables_geoAgg_replace: "Change la règle d'aggrégation (lieux) de <code>{{variable.name}}</code> de <code>{{before}}</code> vers <code>{{after}}</code>",
+			dataSource_variables_timeAgg_replace: "Change la règle d'aggrégation (temps) de <code>{{variable.name}}</code> de <code>{{before}}</code> vers <code>{{after}}</code>",
+			dataSource_variables_order_replace: "Change la présentation de la saisie de la variable <code>{{variable.name}}</code>",
+			dataSource_variables_distribution_replace: "Change la présentation de la saisie de la variable <code>{{variable.name}}</code>",
 
-			forms_elements_partitions_add: "Ajoute la désagrégation <code>{{item.name}}</code> dans <code>{{variable.name}}</code>",
-			forms_elements_partitions_move: "Reordonne les désagrégations de <code>{{variable.name}}</code>",
-			forms_elements_partitions_remove: "Supprime la désagrégation <code>{{item.name}}</code> de <code>{{variable.name}}</code>",
-			forms_elements_partitions_name_replace: "Renomme la désagrégation <code>{{before}}</code> en <code>{{after}}</code> dans la variable <code>{{variable.name}}</code>",
-			forms_elements_partitions_aggregation_replace: "Change la règle d'aggrégation de <code>{{before}}</code> vers <code>{{after}}</code> pour la variable <code>{{variable.name}}</code>",
+			dataSource_variables_partitions_add: "Ajoute la désagrégation <code>{{item.name}}</code> dans <code>{{variable.name}}</code>",
+			dataSource_variables_partitions_move: "Reordonne les désagrégations de <code>{{variable.name}}</code>",
+			dataSource_variables_partitions_remove: "Supprime la désagrégation <code>{{item.name}}</code> de <code>{{variable.name}}</code>",
+			dataSource_variables_partitions_name_replace: "Renomme la désagrégation <code>{{before}}</code> en <code>{{after}}</code> dans la variable <code>{{variable.name}}</code>",
+			dataSource_variables_partitions_aggregation_replace: "Change la règle d'aggrégation de <code>{{before}}</code> vers <code>{{after}}</code> pour la variable <code>{{variable.name}}</code>",
 
-			forms_elements_partitions_elements_add: "Ajoute l'élément <code>{{item.name}}</code> dans la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
-			forms_elements_partitions_elements_move: "Reordonne les éléments de la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
-			forms_elements_partitions_elements_remove: "Supprime l'élément <code>{{item.name}}</code> dans la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
-			forms_elements_partitions_elements_name_replace: "Renomme <code>{{before}}</code> en <code>{{after}}</code> dans la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
+			dataSource_variables_partitions_elements_add: "Ajoute l'élément <code>{{item.name}}</code> dans la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
+			dataSource_variables_partitions_elements_move: "Reordonne les éléments de la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
+			dataSource_variables_partitions_elements_remove: "Supprime l'élément <code>{{item.name}}</code> dans la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
+			dataSource_variables_partitions_elements_name_replace: "Renomme <code>{{before}}</code> en <code>{{after}}</code> dans la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
 
-			forms_elements_partitions_groups_add: "Ajoute le groupe <code>{{item.name}}</code> dans la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
-			forms_elements_partitions_groups_move: "Reordonne les groupes de la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
-			forms_elements_partitions_groups_remove: "Supprime le groupe <code>{{item.name}}</code> dans la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
-			forms_elements_partitions_groups_name_replace: "Renomme le groupe <code>{{before}}</code> en <code>{{after}}</code> dans la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
-			forms_elements_partitions_groups_members_add: "Ajoute <code>{{item.name}}</code> au groupe <code>{{group.name}}</code> dans la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
-			forms_elements_partitions_groups_members_move: "Reordonne les membres du groupe <code>{{group.name}}</code> dans la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
-			forms_elements_partitions_groups_members_remove: "Retire <code>{{item.name}}</code> du groupe <code>{{group.name}}</code> dans la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
+			dataSource_variables_partitions_groups_add: "Ajoute le groupe <code>{{item.name}}</code> dans la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
+			dataSource_variables_partitions_groups_move: "Reordonne les groupes de la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
+			dataSource_variables_partitions_groups_remove: "Supprime le groupe <code>{{item.name}}</code> dans la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
+			dataSource_variables_partitions_groups_name_replace: "Renomme le groupe <code>{{before}}</code> en <code>{{after}}</code> dans la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
+			dataSource_variables_partitions_groups_members_add: "Ajoute <code>{{item.name}}</code> au groupe <code>{{group.name}}</code> dans la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
+			dataSource_variables_partitions_groups_members_move: "Reordonne les membres du groupe <code>{{group.name}}</code> dans la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
+			dataSource_variables_partitions_groups_members_remove: "Retire <code>{{item.name}}</code> du groupe <code>{{group.name}}</code> dans la désagrégation <code>{{partition.name}}</code> de la variable <code>{{variable.name}}</code>",
 
 			logicalFrames_add: "Ajoute le cadre logique <code>{{item.name}}</code>",
 			logicalFrames_move: "Reordonne les cadres logiques",
 			logicalFrames_remove: "Supprime le cadre logique <code>{{item.name}}</code>",
 
-			logicalFrames_entities_add: "Ajoute le lieu <code>{{item.name}}</code> au cadre logique <code>{{logicalFrame.name}}</code>",
-			logicalFrames_entities_move: "Reordonne les lieux du cadre logique <code>{{logicalFrame.name}}</code>",
-			logicalFrames_entities_remove: "Retire le lieu <code>{{item.name}}</code> du cadre logique <code>{{logicalFrame.name}}</code>",
+			logicalFrames_siteIds_add: "Ajoute le lieu <code>{{item.name}}</code> au cadre logique <code>{{logicalFrame.name}}</code>",
+			logicalFrames_siteIds_move: "Reordonne les lieux du cadre logique <code>{{logicalFrame.name}}</code>",
+			logicalFrames_siteIds_remove: "Retire le lieu <code>{{item.name}}</code> du cadre logique <code>{{logicalFrame.name}}</code>",
 
 			logicalFrames_name_replace: "Renomme le cadre logique <code>{{before}}</code> en <code>{{after}}</code>",
 			logicalFrames_goal_replace: "Change l'objectif général <code>{{before}}</code> en <code>{{after}}</code> dans le cadre logique <code>{{logicalFrame.name}}</code>",
@@ -315,7 +315,7 @@ export default {
 
 		structure: "Structure",
 		no_data: "Les données ne sont pas disponibles",
-		not_available_by_entity: "Ces données ne sont pas disponibles par site",
+		not_available_by_site: "Ces données ne sont pas disponibles par site",
 		not_available_by_group: "Ces données ne sont pas disponibles par groupe",
 		not_available_min_week_sat: "Ces données sont disponibles par semaine (samedi à vendredi)",
 		not_available_min_week_sun: "Ces données sont disponibles par semaine (dimanche à samedi)",
@@ -357,7 +357,7 @@ export default {
 			quarter: "Trimestres",
 			semester: "Semestres",
 			year: "Années",
-			entity: "Lieux de collecte",
+			site: "Lieux de collecte",
 			group: "Groupe de collecte"
 		},
 		group: {
@@ -412,7 +412,7 @@ export default {
 		},
 		cols: "Colonnes",
 		rows: "Lignes",
-		entity: "Lieu de collecte",
+		site: "Lieu de collecte",
 		select_cols: "Sélectionnez les colonnes",
 		select_rows: "Sélectionnez les lignes",
 		pivot_table: "Tableau croisé dynamique",
@@ -424,7 +424,7 @@ export default {
 		full_project: "Tout le projet",
 		select_filters: "Sélectionnez les désagrégations désirées",
 
-		collection_form_warning:
+		data_source_warning:
 			'<strong>Attention, en modifiant cette page vous risquez de perdre des données.</strong><br/>' +
 			'{{num_inputs}} saisies ont déjà été réalisées sur cette source de données.' +
 			'<ul>' +
@@ -451,14 +451,14 @@ export default {
 		covered_period: "Période couverte",
 
 		collection_site_list: "Lieux de collecte",
-		collection_form_list: "Sources de données",
+		data_source_list: "Sources de données",
 		collection_input_list: "Saisie",
 
 		collection_site: "Lieu de collecte",
-		collection_form: "Source de données",
+		data_source: "Source de données",
 
-		collection_form_planning: "Calendrier",
-		collection_form_structure: "Structure",
+		data_source_planning: "Calendrier",
+		data_source_structure: "Structure",
 
 		running: "Projets en cours",
 		finished: "Projets terminés",
@@ -470,9 +470,9 @@ export default {
 
 		form_name_ph: "ex: Données SNIS, Fiche consultations prénatales, Fiche consultations générales, ...",
 
-		entity_name: "Nom de la structure ou lieu d’intervention",
+		site_name: "Nom de la structure ou lieu d’intervention",
 		group_name: "Nom du groupe",
-		entity_name_placeholder: "ex: Centre de santé X, Hôpital X, ...",
+		site_name_placeholder: "ex: Centre de santé X, Hôpital X, ...",
 		group_name_placeholder: "ex: Hôpitaux régionaux, parti Nord du pays, ...",
 
 		create: "Créer un nouveau projet",
@@ -495,7 +495,7 @@ export default {
 			free: 'Libre'
 		},
 
-		no_input_entities: 'Aucun lieu d\'activité n\'a encore été créé!',
+		no_input_sites: 'Aucun lieu d\'activité n\'a encore été créé!',
 		no_input_groups: 'Aucun groupe d\'activité n\'a encore été créé!',
 		no_users: 'Aucun utilisateur n\'est ajouté au projet',
 		no_forms: 'Aucune source de données n\'a encore été créé',
@@ -574,7 +574,7 @@ export default {
 		user_help_sites: "Sur quels lieux de collecte cet utilisateur pourra-t'il saisir?",
 		user_help_datasources: "Sur quels sources de données cet utilisateur pourra-t'il saisir?",
 
-		collection_form_list_info:
+		data_source_list_info:
 			"<p>Les sources de données sont les différents supports desquels les données nécessaires au monitoring du projet sont extraites (fiches de suivi, dossiers patient, fichiers Excel, ...)</p>" +
 			"<p>Au sein de monitool, on ne décrira pas l'intégralité des données existantes, mais uniquement la partie qui va être extraite pour le suivi du projet</p>" +
 			"<p>Afin de faciliter l'organisation de la saisie, les sources doivent correspondre à des outils réels utilisés sur le terrain.</p>",

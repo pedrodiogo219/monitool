@@ -5,7 +5,7 @@
 	"name": "testProject",
 	"start": "2010-01-01",
 	"end": "2014-01-01",
-	"entities": [
+	"sites": [
 		{"id": "0c243e08-8c21-4946-9f5f-ce255106901b", "name": "location1"}
 	],
 	"groups": [],
@@ -14,15 +14,15 @@
 	"logicalFrames": [],
 	"crossCutting": {},
 	"extraIndicators": [],
-	"forms": [
+	"dataSources": [
 		{
 			"id": "8a7980f8-0e47-49bb-bf54-fdbe2013e3ea",
 			"name": "whatever",
 			"periodicity": "month",
-			"entities": ["0c243e08-8c21-4946-9f5f-ce255106901b"],
+			"siteIds": ["0c243e08-8c21-4946-9f5f-ce255106901b"],
 			"start": null,
 			"end": null,
-			"elements": [
+			"variables": [
 				{
 					"id": "c0cdae8e-4ebb-41e3-a68e-d8247d3ca7ce",
 					"name": "whatever",

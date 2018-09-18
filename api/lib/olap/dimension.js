@@ -19,13 +19,13 @@ import TimeSlot, {timeSlotRange} from 'timeslot-dag';
 
 export default class Dimension {
 
-	static createTime(project, form, element) {
-		const periodicity = form.periodicity === 'free' ? 'day' : form.periodicity;
+	static createTime(project, dataSource, variable) {
+		const periodicity = dataSource.periodicity === 'free' ? 'day' : dataSource.periodicity;
 
-		// max(project.start, form.start)
-		const start = [project.start, form.start].filter(a => a).sort().pop();
-		// min(project.end, form.end, new Date())
-		const end = [project.end, form.end, new Date().toISOString().substring(0, 10)].sort().shift();
+		// max(project.start, dataSource.start)
+		const start = [project.start, dataSource.start].filter(a => a).sort().pop();
+		// min(project.end, dataSource.end, new Date())
+		const end = [project.end, dataSource.end, new Date().toISOString().substring(0, 10)].sort().shift();
 
 		const periods = Array
 			.from(
@@ -36,19 +36,19 @@ export default class Dimension {
 			)
 			.map(ts => ts.value)
 
-		return new Dimension(periodicity, periods, element.timeAgg);
+		return new Dimension(periodicity, periods, variable.timeAgg);
 	}
 
-	static createTimeFast(project, form, element, inputs) {
-		const periodicity = form.periodicity === 'free' ? 'day' : form.periodicity;
+	static createTimeFast(project, dataSource, variable, inputs) {
+		const periodicity = dataSource.periodicity === 'free' ? 'day' : dataSource.periodicity;
 		const periods = [...(new Set(inputs.map(i => i.period)))];
 		periods.sort();
 
-		return new Dimension(periodicity, periods, element.timeAgg);
+		return new Dimension(periodicity, periods, variable.timeAgg);
 	}
 
-	static createLocation(project, form, element) {
-		return new Dimension('entity', form.entities, element.geoAgg);
+	static createLocation(project, dataSource, variable) {
+		return new Dimension('site', dataSource.siteIds, variable.geoAgg);
 	}
 
 	static createPartition(partition) {

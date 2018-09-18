@@ -27,9 +27,9 @@ const module = angular.module(
 
 module.directive('aclHasProjectCreation', function($rootScope) {
 	return {
-		link: function(scope, element, attributes) {
+		link: function(scope, domElement, attributes) {
 			if ($rootScope.userCtx.type !== 'user' || $rootScope.userCtx.role === 'common')
-				element.remove();
+				domElement.remove();
 		}
 	}
 });
@@ -37,9 +37,9 @@ module.directive('aclHasProjectCreation', function($rootScope) {
 
 module.directive('aclLacksProjectCreation', function($rootScope) {
 	return {
-		link: function(scope, element, attributes) {
+		link: function(scope, domElement, attributes) {
 			if ($rootScope.userCtx.type === 'user' && $rootScope.userCtx.role !== 'common')
-				element.remove();
+				domElement.remove();
 		}
 	}
 });

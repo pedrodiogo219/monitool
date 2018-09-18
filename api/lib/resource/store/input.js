@@ -58,7 +58,7 @@ export default class InputStore extends Store {
 					&& project.end >= startDate
 					&& (!dataSource.start || dataSource.start <= endDate)
 					&& (!dataSource.end || dataSource.end >= startDate)
-					&& dataSource.entities.includes(siteId)
+					&& dataSource.siteIds.includes(siteId)
 					&& dataSource.isValidSlot(period);
 			});
 		}
@@ -86,7 +86,7 @@ export default class InputStore extends Store {
 					&& project.end >= startDate
 					&& (!dataSource.start || dataSource.start <= endDate)
 					&& (!dataSource.end || dataSource.end >= startDate)
-					&& dataSource.entities.includes(input.entity)
+					&& dataSource.siteIds.includes(input.entity)
 					&& dataSource.isValidSlot(input.period);
 			});
 
@@ -131,7 +131,7 @@ export default class InputStore extends Store {
 					&& project.end >= startDate
 					&& (!dataSource.start || dataSource.start <= endDate)
 					&& (!dataSource.end || dataSource.end >= startDate)
-					&& dataSource.entities.includes(input.entity)
+					&& dataSource.siteIds.includes(input.entity)
 					&& dataSource.isValidSlot(input.period);
 			});
 
@@ -169,7 +169,7 @@ export default class InputStore extends Store {
 					&& project.end >= startDate
 					&& (!dataSource.start || dataSource.start <= endDate)
 					&& (!dataSource.end || dataSource.end >= startDate)
-					&& dataSource.entities.includes(input.entity)
+					&& dataSource.siteIds.includes(input.entity)
 					&& dataSource.isValidSlot(input.period)
 			});
 

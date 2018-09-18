@@ -114,7 +114,7 @@ export default class Variable extends Model {
 	}
 
 	_makeTopRows(partitions) {
-		var totalCols = partitions.reduce(function(memo, tp) { return memo * tp.elements.length; }, 1),
+		var totalCols = partitions.reduce((memo, tp) => memo * tp.elements.length, 1),
 			currentColSpan = totalCols;
 
 		var body = [];

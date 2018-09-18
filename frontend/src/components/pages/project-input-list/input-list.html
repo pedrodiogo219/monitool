@@ -23,11 +23,11 @@
 	<span translate="project.input_list_info" translate-values="::{name: $ctrl.dataSource.name}"></span>
 </div>
 
-<div ng-if="!$ctrl.dataSource.entities.length">
-	<span translate="project.form_is_not_associated_with_site"></span>
+<div ng-if="!$ctrl.dataSource.siteIds.length">
+	<span translate="project.data_source_is_not_associated_with_site"></span>
 </div>
 
-<div class="input-table-container" ng-if="$ctrl.dataSource.entities.length">
+<div class="input-table-container" ng-if="$ctrl.dataSource.siteIds.length">
 	<table class="table table-bordered table-condensed">
 		<tbody>
 			<tr ng-repeat="date in $ctrl.visibleStatus">
@@ -36,12 +36,12 @@
 					<div class="bodyField" ng-if="$ctrl.inputsStatus[date][site.id] !== undefined">
 						<a class="btn btn-xs btn-default"
 						   ng-if="$ctrl.inputsStatus[date][site.id] !== null"
-						   ui-sref="main.project.input.edit({dataSourceId: $ctrl.dataSource.id, period: date, entityId: site.id})"
+						   ui-sref="main.project.input.edit({dataSourceId: $ctrl.dataSource.id, period: date, siteId: site.id})"
 						   translate="project.input_status.done"
 						   translate-values="::{value: $ctrl.inputsStatus[date][site.id]}">
 
 						<a class="btn btn-xs btn-primary"
-						   ui-sref="main.project.input.edit({dataSourceId: $ctrl.dataSource.id, period: date, entityId: site.id})"
+						   ui-sref="main.project.input.edit({dataSourceId: $ctrl.dataSource.id, period: date, siteId: site.id})"
 						   ng-if="$ctrl.inputsStatus[date][site.id] === null"
 						   translate="project.input_status.expected"></a>
 					</div>

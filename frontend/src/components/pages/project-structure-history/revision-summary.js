@@ -146,12 +146,8 @@ module.component('revisionSummary', {
 
 				currentItem = currentItem[name][id];
 
-				if (name === 'entities') // This is just to avoid writing "entitie" in the translation strings
-					name = 'entity';
-				else if (name === 'elements' && j < 5) // Avoid name collision between form and partition elements
-					name = 'variable';
-				else // we can have the singular by removing the trailing 's' (i.e. logicalFrames => logicalFrame)
-					name = name.substring(0, name.length - 1);
+				// take the singular by removing the trailing 's' (i.e. logicalFrames => logicalFrame)
+				name = name.substring(0, name.length - 1);
 
 				translationData[name] = currentItem;
 			}
@@ -191,13 +187,13 @@ module.component('revisionSummary', {
 			//////////////////////////
 
 			if (operation.op === 'add' || operation.op === 'remove') {
-				if (editedField === 'users_dataSources')
+				if (editedField === 'users_dataSourceIds')
 					translationData.item = before.forms.find(e => e.id === translationData.item);
 
-				if (['groups_members', 'forms_entities', 'users_entities', 'logicalFrames_entities'].includes(editedField))
-					translationData.item = before.entities.find(e => e.id === translationData.item);
+				if (['groups_members', 'dataSources_siteIds', 'users_siteIds', 'logicalFrames_siteIds'].includes(editedField))
+					translationData.item = before.sites.find(e => e.id === translationData.item);
 
-				if (editedField === 'forms_elements_partitions_groups_members')
+				if (editedField === 'dataSources_variables_partitions_groups_members')
 					translationData.item = translationData.partition.elements.find(e => e.id == translationData.item);
 			}
 

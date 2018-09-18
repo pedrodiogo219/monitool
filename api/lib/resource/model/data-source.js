@@ -48,19 +48,19 @@ export default class DataSource extends Model {
 	constructor(data, project) {
 		super(data, validate);
 
-		let entityIds = project.entities.map(e => e.id);
+		let siteIds = project.sites.map(e => e.id);
 
-		data.entities.forEach(function(entityId) {
-			if (entityIds.indexOf(entityId) === -1)
+		data.siteIds.forEach(siteId => {
+			if (siteIds.indexOf(siteId) === -1)
 				throw new Error('invalid_data');
 		});
 
-		this.elements = this.elements.map(el => new Variable(el));
+		this.variables = this.variables.map(variable => new Variable(variable));
 	}
 
 	get structure() {
 		let s = {};
-		this.elements.forEach(element => s[element.id] = element.structure);
+		this.variables.forEach(variable => s[variable.id] = variable.structure);
 		return s;
 	}
 
@@ -80,7 +80,7 @@ export default class DataSource extends Model {
 	 * Retrieve a variable by id
 	 */
 	getVariableById(id) {
-		return this.elements.find(el => el.id === id);
+		return this.variables.find(variable => variable.id === id);
 	}
 
 	getPdfDocDefinition(pageOrientation, language='en') {
@@ -114,8 +114,9 @@ export default class DataSource extends Model {
 						}
 					]
 				]
-			}
-		].concat(this.elements.map(el => el.getPdfDocDefinition()));
+			},
+			...this.variables.map(el => el.getPdfDocDefinition())
+		];
 
 		return doc;
 	}

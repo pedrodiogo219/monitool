@@ -38,24 +38,24 @@ module.directive('disableIf', function() {
 		scope: {
 			disableIf: "="
 		},
-		link: function($scope, element, attributes) {
+		link: function($scope, domElement, attributes) {
 			$scope.$watch('disableIf', function(disable) {
 				if (disable) {
-					element.addClass('disabled')
-					element.on('click', inhibitHandler);
+					domElement.addClass('disabled')
+					domElement.on('click', inhibitHandler);
 
-					if (element.hasClass('clickable')) {
-						element.removeClass('clickable');
-						element.addClass('nonclickable');
+					if (domElement.hasClass('clickable')) {
+						domElement.removeClass('clickable');
+						domElement.addClass('nonclickable');
 					}
 				}
 				else {
-					element.removeClass('disabled')
-					element.off('click', inhibitHandler);
+					domElement.removeClass('disabled')
+					domElement.off('click', inhibitHandler);
 
-					if (element.hasClass('nonclickable')) {
-						element.addClass('clickable');
-						element.removeClass('nonclickable');
+					if (domElement.hasClass('nonclickable')) {
+						domElement.addClass('clickable');
+						domElement.removeClass('nonclickable');
 					}
 				}
 			});

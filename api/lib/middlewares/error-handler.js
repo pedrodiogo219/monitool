@@ -30,7 +30,7 @@ const statusCodes = {
 
 	// put
 	id_mismatch: 400,	// id in URL and model do not match
-	invalid_data: 400,	// saving entity that did not pass validation
+	invalid_data: 400,	// saving something that did not pass validation
 	missing_data: 400,  // ???
 	invalid_reference: 400, // foreign key fail.
 };

@@ -16,19 +16,19 @@
 		<thead>
 			<tr>
 				<th style="width: 30px"></th>
-				<th translate="project.entity_name"></th>
+				<th translate="project.site_name"></th>
 				<th style="width: 200px" translate="project.specific_start"></th>
 				<th style="width: 200px" translate="project.specific_end"></th>
 				<th style="width: 30px"></th>
 			</tr>
 		</thead>
-		<tbody ng-if="$ctrl.editableProject.entities.length == 0">
+		<tbody ng-if="$ctrl.editableProject.sites.length == 0">
 			<tr>
-				<td colspan="5" style="text-align: center" translate="project.no_input_entities"></td>
+				<td colspan="5" style="text-align: center" translate="project.no_input_sites"></td>
 			</tr>
 		</tbody>
 		<tbody ng-sortable="$ctrl.ngSortableOptions">
-			<tr ng-repeat="inputEntity in $ctrl.editableProject.entities track by inputEntity.id">
+			<tr ng-repeat="inputEntity in $ctrl.editableProject.sites track by inputEntity.id">
 				<td class="handle"><i class="fa fa-sort fa-fw"></i></td>
 
 				<td>
@@ -39,7 +39,7 @@
 								   ng-model="inputEntity.name"
 								   ng-change="$ctrl.onFieldChange()"
 								   class="form-control input-sm"
-								   placeholder="{{'project.entity_name_placeholder'|translate}}"
+								   placeholder="{{'project.site_name_placeholder'|translate}}"
 								   required />
 						</div>
 					</ng-form>
@@ -114,8 +114,8 @@
 				<td>
 					<ui-select multiple ng-model="inputGroup.members" ng-change="$ctrl.onFieldChange()" theme="bootstrap">
 						<ui-select-match placeholder="">{{$item.name}}</ui-select-match>
-						<ui-select-choices repeat="inputEntity.id as inputEntity in $ctrl.editableProject.entities">
-							{{inputEntity.name}}
+						<ui-select-choices repeat="site.id as site in $ctrl.editableProject.sites">
+							{{site.name}}
 						</ui-select-choices>
 					</ui-select>
 				</td>

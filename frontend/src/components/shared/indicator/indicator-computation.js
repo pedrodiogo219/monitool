@@ -71,7 +71,7 @@ module.component('indicatorComputation', {
 				this.selectElements = [];
 				this.variablesById = {};
 				this.dataSources.forEach(dataSource => {
-					dataSource.elements.forEach(variable => {
+					dataSource.variables.forEach(variable => {
 						this.variablesById[variable.id] = variable; // Use to find partition on view
 						this.selectElements.push({id: variable.id, name: variable.name, group: dataSource.name}); // Used by selectbox
 					});
@@ -111,7 +111,7 @@ module.component('indicatorComputation', {
 
 				// Add new symbols to formula
 				addedSymbols.forEach(s => {
-					this.computation.parameters[s] = {elementId: null, filter: {}};
+					this.computation.parameters[s] = {variableId: null, filter: {}};
 				});
 			}
 

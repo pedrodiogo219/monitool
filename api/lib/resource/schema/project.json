@@ -12,9 +12,9 @@
 		"end",
 		"visibility",
 		"active",
-		"entities",
+		"sites",
 		"groups",
-		"forms",
+		"dataSources",
 		"crossCutting",
 		"logicalFrames",
 		"users",
@@ -38,7 +38,7 @@
 		"visibility": { "type": "string", "enum": ["public", "private"]},
 		"active": { "type": "boolean" },
 
-		"entities": {
+		"sites": {
 			"type": "array",
 			"items": {
 				"id": { "$ref": "#/definitions/uuid" },
@@ -60,7 +60,7 @@
 			}
 		},
 
-		"forms": {
+		"dataSources": {
 			"type": "array",
 			"items": {"type": "object"}
 		},
@@ -99,18 +99,18 @@
 					{
 						"type": "object",
 						"additionalProperties": false,
-						"required": ["type", "id", "role", "entities", "dataSources"],
+						"required": ["type", "id", "role", "siteIds", "dataSourceIds"],
 						"properties": {
 							"type": {"type": "string", "pattern": "^internal$"},
 							"id": {"type": "string", "pattern": "^user:[a-z0-9\\.\\-\\_]+$"},
 							"role": {"type": "string", "enum": ["input"]},
 
-							"entities": {
+							"siteIds": {
 								"type": "array",
 								"uniqueItems": true,
 								"items": { "$ref": "#/definitions/uuid" }
 							},
-							"dataSources": {
+							"dataSourceIds": {
 								"type": "array",
 								"uniqueItems": true,
 								"items": { "$ref": "#/definitions/uuid" }
@@ -120,7 +120,7 @@
 					{
 						"type": "object",
 						"additionalProperties": false,
-						"required": ["name", "password", "role", "type", "username", "entities", "dataSources"],
+						"required": ["name", "password", "role", "type", "username", "siteIds", "dataSourceIds"],
 						"properties": {
 							"type": {"type": "string", "pattern": "^partner$"},
 							"name": {"type": "string", "minLength": 1},
@@ -134,12 +134,12 @@
 								]
 							},
 
-							"entities": {
+							"siteIds": {
 								"type": "array",
 								"uniqueItems": true,
 								"items": { "$ref": "#/definitions/uuid" }
 							},
-							"dataSources": {
+							"dataSourceIds": {
 								"type": "array",
 								"uniqueItems": true,
 								"items": { "$ref": "#/definitions/uuid" }
@@ -207,9 +207,9 @@
 								".*": {
 									"type": "object",
 									"additionalProperties": false,
-									"required": ["elementId", "filter"],
+									"required": ["variableId", "filter"],
 									"properties": {
-										"elementId": {"$ref": "#/definitions/uuid"},
+										"variableId": {"$ref": "#/definitions/uuid"},
 										"filter": {
 											"type": "object",
 											"additionalProperties": false,

@@ -2,10 +2,10 @@
 	<li ng-if="$root.userCtx.type == 'user'"><a ui-sref="main.projects" translate="shared.projects"></a></li>
 	<li class="active" title="{{$ctrl.project.country}}" ng-bind="$ctrl.project.country|maxLength:20"></li>
 	<li class="active" title="{{$ctrl.project.name}}" ng-bind="$ctrl.project.name|maxLength:50"></li>
-	<li class="active" translate="project.collection_form_list"></li>
+	<li class="active" translate="project.data_source_list"></li>
 </ol>
 
-<div class="alert alert-info" translate="project.collection_form_list_info"></div>
+<div class="alert alert-info" translate="project.data_source_list_info"></div>
 
 
 <div ng-sortable="$ctrl.ngSortableOptions">
@@ -29,12 +29,12 @@
 			</div>
 			<div>
 				<strong translate="project.collection_site_list"></strong>
-				<element-groups ids="dataSource.entities" items="$ctrl.project.entities" groups="$ctrl.project.groups"></element-groups>
+				<element-groups ids="dataSource.siteIds" items="$ctrl.project.sites" groups="$ctrl.project.groups"></element-groups>
 			</div>
 
 			<div class="panel-buttons btn-group">
 				<a class="btn btn-default btn-xxs"
-				   ui-sref="main.project.structure.collection_form_edition({dataSourceId: dataSource.id})">
+				   ui-sref="main.project.structure.data_source_edition({dataSourceId: dataSource.id})">
 				   	<i class="fa fa-pencil"></i>
 				   	<span translate="shared.edit"></span>
 				</a>

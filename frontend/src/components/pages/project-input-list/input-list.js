@@ -83,11 +83,11 @@ module.component('projectInputList', {
 		}
 
 		$onChanges(changes) {
-			// Define form
-			this.dataSource = this.project.forms.find(ds => ds.id === this.dataSourceId);
+			// Define data source
+			this.dataSource = this.project.dataSources.find(ds => ds.id === this.dataSourceId);
 
 			// Define sites (depending on user permissions)
-			this.sites = this.project.entities.filter(e => this.dataSource.entities.includes(e.id));
+			this.sites = this.project.sites.filter(s => this.dataSource.siteIds.includes(s.id));
 			if (this.userCtx.role !== 'admin') {
 				const projectUser = this.project.users.find(u => {
 					return (this.userCtx.type == 'user' && u.id == this.userCtx._id) ||
@@ -96,7 +96,7 @@ module.component('projectInputList', {
 
 				if (projectUser.role === 'input')
 					// This will happen regardless of unexpected entries.
-					this.sites = this.sites.filter(e => projectUser.entities.includes(e.id));
+					this.sites = this.sites.filter(s => projectUser.siteIds.includes(s.id));
 			}
 
 			// Handle special case for free periodicity.
@@ -131,11 +131,11 @@ module.component('projectInputList', {
 			this.visibleStatus.push(...this.hiddenStatus.splice(0, 10));
 		}
 
-		addInput(entityId) {
+		addInput(siteId) {
 			this.$state.go('main.project.input.edit', {
 				period: this.newInputDate,
 				dataSourceId: this.dataSource.id,
-				entityId: entityId
+				siteId: siteId
 			});
 		}
 	}

@@ -4,7 +4,7 @@
 
 	"type": "object",
 	"additionalProperties": false,
-	"required": ["id", "name", "goal", "entities", "start", "end", "indicators", "purposes"],
+	"required": ["id", "name", "goal", "siteIds", "start", "end", "indicators", "purposes"],
 	"properties": {
 		"id": {
 			"$ref": "#/definitions/uuid"
@@ -12,7 +12,7 @@
 		"name": { "type": "string" },
 		"goal": { "type": "string" },
 
-		"entities": {
+		"siteIds": {
 			"type": "array",
 			"items": { "$ref": "#/definitions/uuid" }
 		},
@@ -96,9 +96,9 @@
 								".*": {
 									"type": "object",
 									"additionalProperties": false,
-									"required": ["elementId", "filter"],
+									"required": ["variableId", "filter"],
 									"properties": {
-										"elementId": {"$ref": "#/definitions/uuid"},
+										"variableId": {"$ref": "#/definitions/uuid"},
 										"filter": {
 											"type": "object",
 											"additionalProperties": false,

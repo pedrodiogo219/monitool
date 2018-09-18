@@ -48,7 +48,7 @@ module.component('projectUserModal', {
 		}
 
 		$onChanges(changes) {
-			this.entities = this.resolve.entities;
+			this.sites = this.resolve.sites;
 			this.groups = this.resolve.groups;
 			this.dataSources = this.resolve.dataSources;
 
@@ -73,9 +73,9 @@ module.component('projectUserModal', {
 			this.isNew = !this.resolve.projectUser;
 
 			// The form updates a copy of the object, so that user can cancel the changes by just dismissing the modal.
-			this.user = angular.copy(this.resolve.projectUser) || {type: "internal", id: null, role: "owner", entities: [], dataSources: []};
-			this.user.entities = this.user.entities || [];
-			this.user.dataSources = this.user.dataSources || [];
+			this.user = angular.copy(this.resolve.projectUser) || {type: "internal", id: null, role: "owner", siteIds: [], dataSourceIds: []};
+			this.user.siteIds = this.user.siteIds || [];
+			this.user.dataSourceIds = this.user.dataSourceIds || [];
 
 			this.masterUser = angular.copy(this.user);
 		}
@@ -93,8 +93,8 @@ module.component('projectUserModal', {
 				delete this.user.id;
 
 			if (this.user.role != 'input') {
-				delete this.user.entities;
-				delete this.user.dataSources;
+				delete this.user.siteIds;
+				delete this.user.dataSourceIds;
 			}
 
 			this.close({$value: this.user});

@@ -80,11 +80,10 @@ module.component('generalTable', {
 				if (logFrame.end && (!tbody.filter._end || tbody.filter._end > logFrame.end))
 					tbody.filter._end = logFrame.end;
 
-				if (tbody.filter.entity)
-					tbody.filter.entity = logFrame.entities.filter(e => tbody.filter.entity.includes(e));
+				if (tbody.filter.site)
+					tbody.filter.site = logFrame.siteIds.filter(e => tbody.filter.site.includes(e));
 				else
-					tbody.filter.entity = logFrame.entities;
-
+					tbody.filter.site = logFrame.siteIds;
 			});
 		}
 
@@ -93,7 +92,7 @@ module.component('generalTable', {
 				...this.project.logicalFrames.map(lf => this._logicalFrameworkToTbody(lf)),
 				this._ccIndicatorsToTbody(),
 				this._extraIndicatorsToTbody(),
-				...this.project.forms.map(ds => this._dataSourceToTbody(ds))
+				...this.project.dataSources.map(ds => this._dataSourceToTbody(ds))
 			].filter(tbody => tbody.sections.some(s => !!s.indicators.length));
 		}
 
@@ -216,13 +215,13 @@ module.component('generalTable', {
 		_dataSourceToTbody(dataSource) {
 			return {
 				id: dataSource.id,
-				prefix: 'project.collection_form',
+				prefix: 'project.data_source',
 				name: dataSource.name,
 				sections: [
 					{
 						id: dataSource.id,
 						indent: 0,
-						indicators: dataSource.elements.map(variable => {
+						indicators: dataSource.variables.map(variable => {
 							// create fake indicators from the variables
 							return {
 								id: variable.id,
@@ -234,7 +233,7 @@ module.component('generalTable', {
 									formula: 'a',
 									parameters: {
 										a: {
-											elementId: variable.id,
+											variableId: variable.id,
 											filter: {}
 										}
 									}

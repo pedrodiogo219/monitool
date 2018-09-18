@@ -28,21 +28,21 @@ describe('DataSource', function() {
 	before(function() {
 		dataSource = new DataSource({
 			id: "1760d546-cccf-43fe-8f28-1e40a05f23b5",
-			name: "form",
+			name: "a data source",
 			periodicity: "month",
-			entities: ["0c243e08-8c21-4946-9f5f-ce255106901b"],
+			siteIds: ["0c243e08-8c21-4946-9f5f-ce255106901b"],
 			start: null,
 			end: null,
-			elements: [
+			variables: [
 				{
 					id: "d986f4bc-a0b6-4269-a847-78b195185b06",
-					name: "element1",
+					name: "variable 1",
 					order: 0, distribution: 0, timeAgg: 'sum', geoAgg: 'sum',
 					partitions: []
 				},
 				{
 					id: "5b1dd275-2c74-4d74-b5f6-33225fc14d12",
-					name: 'element2',
+					name: 'variable 2',
 					order: 0, distribution: 0, timeAgg: 'sum', geoAgg: 'sum',
 					partitions: []
 				}
@@ -58,28 +58,28 @@ describe('DataSource', function() {
 			newDataSource = new DataSource(JSON.parse(JSON.stringify(dataSource)), require('../../data/project.json'));
 		});
 
-		it('renaming the form should not change anything', function() {
+		it('renaming the data source should not change anything', function() {
 			newDataSource.name = "newName"
 
 			assert.equal(dataSource.signature, newDataSource.signature);
 		});
 
-		it('Inverting two elements should not change anything', function() {
-			var tmp = newDataSource.elements[0];
-			newDataSource.elements[0] = newDataSource.elements[1];
-			newDataSource.elements[1] = tmp;
+		it('Inverting two variables should not change anything', function() {
+			var tmp = newDataSource.variables[0];
+			newDataSource.variables[0] = newDataSource.variables[1];
+			newDataSource.variables[1] = tmp;
 
 			assert.equal(dataSource.signature, newDataSource.signature);
 		});
 
-		it('Adding an element should change the result', function() {
-			newDataSource.elements.push({id: 'element3', partitions: []});
+		it('Adding a variable should change the result', function() {
+			newDataSource.variables.push({id: 'variable 3', partitions: []});
 
 			assert.notEqual(dataSource.signature, newDataSource.signature);
 		});
 
-		it('Removing an element should change the result', function() {
-			newDataSource.elements.splice(0, 1);
+		it('Removing a variable should change the result', function() {
+			newDataSource.variables.splice(0, 1);
 
 			assert.notEqual(dataSource.signature, newDataSource.signature);
 		});
@@ -90,14 +90,14 @@ describe('DataSource', function() {
 		it('should retrieve the first variable', function() {
 			assert.equal(
 				dataSource.getVariableById('d986f4bc-a0b6-4269-a847-78b195185b06').name,
-				'element1'
+				'variable 1'
 			);
 		});
 
 		it('should retrieve the last variable', function() {
 			assert.equal(
 				dataSource.getVariableById('5b1dd275-2c74-4d74-b5f6-33225fc14d12').name,
-				'element2'
+				'variable 2'
 			);
 		});
 

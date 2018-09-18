@@ -90,9 +90,9 @@ module.component('projectUserList', {
 						allUsers: () => this.users,
 						projectUser: () => user,
 						allProjectUsers: () => this.editableProject.users,
-						entities: () => this.editableProject.entities,
+						sites: () => this.editableProject.sites,
 						groups: () => this.editableProject.groups,
-						dataSources: () => this.editableProject.forms,
+						dataSources: () => this.editableProject.dataSources,
 					}
 				})
 				.result

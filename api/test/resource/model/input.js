@@ -45,15 +45,15 @@ describe("Input", function() {
 			assert.equal(false, input.update(oldProject, newProject));
 		});
 
-		it('remove form', function() {
-			newProject.forms.splice(0, 1);
+		it('remove data source', function() {
+			newProject.dataSources.splice(0, 1);
 
 			assert.equal(true, input.update(oldProject, newProject));
 			assert.equal(input._deleted, true);
 		});
 
 		it('adding a simple variable shoud add one zero', function() {
-			newProject.forms[0].elements.push(new Variable({
+			newProject.dataSources[0].variables.push(new Variable({
 				id: '03ca15e3-6dab-438a-bbb0-40a673df547e',
 				name: "newVariable",
 				timeAgg: 'sum', geoAgg: 'sum', order: 0, distribution: 0, partitions: []
@@ -68,7 +68,7 @@ describe("Input", function() {
 		});
 
 		it('adding a variable with a partition shoud add two zeros', function() {
-			newProject.forms[0].elements.push(new Variable({
+			newProject.dataSources[0].variables.push(new Variable({
 				id: '03ca15e3-6dab-438a-bbb0-40a673df547e',
 				name: "newVariable",
 				timeAgg: 'sum', geoAgg: 'sum', order: 0, distribution: 0,
@@ -96,7 +96,7 @@ describe("Input", function() {
 		});
 
 		it('removing a variable shoud remove the entry', function() {
-			newProject.forms[0].elements.splice(0, 1);
+			newProject.dataSources[0].variables.splice(0, 1);
 
 			assert.equal(true, input.update(oldProject, newProject));
 			assert.deepEqual(input.values, {
@@ -105,7 +105,7 @@ describe("Input", function() {
 		});
 
 		it('removing another variable shoud remove the entry', function() {
-			newProject.forms[0].elements.splice(1, 1);
+			newProject.dataSources[0].variables.splice(1, 1);
 
 			assert.equal(true, input.update(oldProject, newProject));
 			assert.deepEqual(input.values, {
@@ -114,7 +114,7 @@ describe("Input", function() {
 		});
 
 		it('adding a partition at the back should move all data to the first element of that partition', function() {
-			newProject.forms[0].elements[0].partitions.push({
+			newProject.dataSources[0].variables[0].partitions.push({
 				id: "b0c9849f-c1ae-437d-ba93-2d52879455a1",
 				name: "whatever",
 				elements: [
@@ -135,7 +135,7 @@ describe("Input", function() {
 		});
 
 		it('adding a partition in front should move all data to the first element of that partition', function() {
-			newProject.forms[0].elements[0].partitions.unshift({
+			newProject.dataSources[0].variables[0].partitions.unshift({
 				id: "b0c9849f-c1ae-437d-ba93-2d52879455a1",
 				name: "whatever",
 				elements: [
@@ -156,7 +156,7 @@ describe("Input", function() {
 		});
 
 		it('adding a partition elements on the beginning of first partition should update the data', function() {
-			newProject.forms[0].elements[0].partitions[0].elements.push({
+			newProject.dataSources[0].variables[0].partitions[0].elements.push({
 				'id': '717a2728-c82c-426a-9198-88bd54821f0d',
 				'name': 'newElement'
 			});
@@ -171,7 +171,7 @@ describe("Input", function() {
 		})
 
 		it('adding a partition elements on the middle first partition should update the data', function() {
-			newProject.forms[0].elements[0].partitions[0].elements.splice(1, 0, {
+			newProject.dataSources[0].variables[0].partitions[0].elements.splice(1, 0, {
 				'id': '717a2728-c82c-426a-9198-88bd54821f0d',
 				'name': 'newElement'
 			});
@@ -186,7 +186,7 @@ describe("Input", function() {
 		});
 
 		it('adding a partition elements on the middle of the second partition should update the data', function() {
-			newProject.forms[0].elements[0].partitions[1].elements.splice(1, 0, {
+			newProject.dataSources[0].variables[0].partitions[1].elements.splice(1, 0, {
 				'id': '717a2728-c82c-426a-9198-88bd54821f0d',
 				'name': 'newElement'
 			});
@@ -201,7 +201,7 @@ describe("Input", function() {
 		});
 
 		it('removing a partition element 1', function() {
-			newProject.forms[0].elements[0].partitions[0].elements.splice(0, 1);
+			newProject.dataSources[0].variables[0].partitions[0].elements.splice(0, 1);
 
 			assert.equal(true, input.update(oldProject, newProject));
 			assert.deepEqual(input.values, {
@@ -213,7 +213,7 @@ describe("Input", function() {
 		});
 
 		it('reordering partition elements', function() {
-			newProject.forms[0].elements[0].partitions.forEach(function(partition) {
+			newProject.dataSources[0].variables[0].partitions.forEach(function(partition) {
 				partition.elements.reverse();
 			});
 
@@ -228,7 +228,7 @@ describe("Input", function() {
 		});
 
 		it('removing a partition', function() {
-			newProject.forms[0].elements[0].partitions.splice(2, 1);
+			newProject.dataSources[0].variables[0].partitions.splice(2, 1);
 
 			assert.equal(true, input.update(oldProject, newProject));
 

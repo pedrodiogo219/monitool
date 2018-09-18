@@ -11,8 +11,8 @@ const TIME_PERIODICITIES = [
 
 function* _generatePeriods(project, indicator, filter) {
 	const parameters = Object.values(indicator.computation.parameters);
-	const dataSources = project.forms.filter(ds => {
-		return parameters.some(param => ds.elements.some(v => v.id === param.elementId));
+	const dataSources = project.dataSources.filter(ds => {
+		return parameters.some(param => ds.variables.some(v => v.id === param.variableId));
 	});
 
 	// Get list of periodicities which are compatible with the computation
@@ -98,16 +98,16 @@ function* _generatePeriods(project, indicator, filter) {
 
 // intersection of sites that are in this computation
 function* _generateSites(project, indicator, filter) {
-	// no entity dimension if already filtered as much as possible.
-	if (filter.entity && (/*filter.entity.length < 2 || */filter.entity.final))
+	// no site dimension if already filtered as much as possible.
+	if (filter.site && (/*filter.site.length < 2 || */filter.site.final))
 		return;
 
 	const parameters = Object.values(indicator.computation.parameters);
-	const dataSources = project.forms.filter(ds => {
-		return parameters.some(param => ds.elements.some(variable => variable.id === param.elementId));
+	const dataSources = project.dataSources.filter(ds => {
+		return parameters.some(param => ds.variables.some(variable => variable.id === param.variableId));
 	});
 
-	const siteRows = project.entities
+	const siteRows = project.sites
 		// We have an
 		// - Indicator defined by 100 * a / b
 		// - 3 sites: Paris, Madrid and London
@@ -117,10 +117,10 @@ function* _generateSites(project, indicator, filter) {
 		// => We can't compute the indicator for paris and london, but we can for madrid.
 		// => The condition for a site to have a subrow is that it must be present in ALL the parameters origin data source.
 		.filter(site => {
-			if (!dataSources.every(ds => ds.entities.includes(site.id)))
+			if (!dataSources.every(ds => ds.siteIds.includes(site.id)))
 				return false;
 
-			if (filter.entity && !filter.entity.includes(site.id))
+			if (filter.site && !filter.site.includes(site.id))
 				return false;
 
 			return true;
@@ -132,7 +132,7 @@ function* _generateSites(project, indicator, filter) {
 				isGroup: false,
 				indicator: indicator,
 				filter: {
-					entity: [site.id]
+					site: [site.id]
 				}
 			}
 		});
@@ -147,11 +147,11 @@ function* _generateSites(project, indicator, filter) {
 		// The condition for a group to be included is that for all parameters, the group must provide a value.
 		// Which means, for all parameters, there must be an intersection between the group members and the data source providing the param.
 		.filter(group => {
-			// <=> for all dataSource, ds.entities intersection with group.members is non empty
-			if (!dataSources.every(ds => ds.entities.some(siteId => group.members.includes(siteId))))
+			// <=> for all dataSource, ds.siteIds intersection with group.members is non empty
+			if (!dataSources.every(ds => ds.siteIds.some(siteId => group.members.includes(siteId))))
 				return false;
 
-			if (filter.entity && !filter.entity.some(siteId => group.members.includes(siteId)))
+			if (filter.site && !filter.site.some(siteId => group.members.includes(siteId)))
 				return false;
 
 			return true;
@@ -163,15 +163,15 @@ function* _generateSites(project, indicator, filter) {
 				isGroup: true,
 				indicator: indicator,
 				filter: {
-					entity: group.members // we could intersect this with the union of param's siteIds.
+					site: group.members // we could intersect this with the union of param's siteIds.
 				}
 			}
 		});
 
 	yield {
-		id: 'entity',
-		name: 'project.dimensions.entity',
-		exclude: ['entity', 'group'],
+		id: 'site',
+		name: 'project.dimensions.site',
+		exclude: ['site', 'group'],
 		rows: [...groupRows, ...siteRows]
 	};
 }
@@ -179,12 +179,12 @@ function* _generateSites(project, indicator, filter) {
 
 function* _generatePartitions(project, indicator, filter) {
 	// Get all variables and computations parameters in arrays.
-	const variables = project.forms.reduce((m, e) => m.concat(e.elements), []);
+	const variables = project.dataSources.reduce((m, ds) => m.concat(ds.variables), []);
 	const parameters = Object.values(indicator.computation.parameters);
 
 	// Get partitions which are available in all variables used for the computation (<=> intersect parameters)
 	let commonPartitions = parameters.reduce((memo, param) => {
-		const partitions = variables.find(v => v.id === param.elementId).partitions;
+		const partitions = variables.find(v => v.id === param.variableId).partitions;
 		if (memo !== null)
 			return partitions.filter(p => memo.some(p2 => p2.id == p.id))
 		else
@@ -236,12 +236,12 @@ function* _generatePartitions(project, indicator, filter) {
 }
 
 function* _generateParameters(project, indicator, filter) {
-	const variables = project.forms.reduce((memo, ds) => [...memo, ...ds.elements], []);
+	const variables = project.dataSources.reduce((memo, ds) => [...memo, ...ds.variables], []);
 
 	const rows = [];
 	for (let paramId in indicator.computation.parameters) {
 		const param = indicator.computation.parameters[paramId];
-		const variable = variables.find(v => v.id == param.elementId);
+		const variable = variables.find(v => v.id == param.variableId);
 
 		rows.push({
 			id: paramId,
@@ -289,7 +289,7 @@ export function *generateProjectDimensions(project) {
 	timePeriodicities.forEach(periodicity => {
 
 		let isValid = false;
-		for (let dataSource of project.forms) {
+		for (let dataSource of project.dataSources) {
 			if (dataSource.periodicity === 'free' || dataSource.periodicity === periodicity) {
 				isValid = true;
 				break
@@ -318,7 +318,7 @@ export function *generateProjectDimensions(project) {
 	// Sites
 	const siteVariants = {}
 
-	siteVariants['elements'] = project.entities.map(site => {
+	siteVariants['elements'] = project.sites.map(site => {
 		return {id: site.id, name: site.name, filter: [site.id]};
 	});
 
@@ -345,10 +345,10 @@ export function computeCompatiblePeriodicities(project, computation) { //fixme r
 
 	const variableIds = Object
 		.values(computation.parameters)
-		.map(param => param.elementId);
+		.map(param => param.variableId);
 
-	const dsPeriodicities = project.forms
-		.filter(ds => ds.elements.some(variable => variableIds.includes(variable.id)))
+	const dsPeriodicities = project.dataSources
+		.filter(ds => ds.variables.some(variable => variableIds.includes(variable.id)))
 		.map(ds => ds.periodicity);
 
 	return TIME_PERIODICITIES.filter(periodicity => {
@@ -376,9 +376,9 @@ export function computeSplitPartitions(project, computation) {
 	const result = Object
 		.values(computation.parameters)
 		.reduce((memo, param) => {
-			let partitions = project.forms
+			let partitions = project.dataSources
 				.reduce((m, e) => m.concat(e.elements), [])
-				.find(v => v.id === param.elementId)
+				.find(v => v.id === param.variableId)
 				.partitions
 				.filter(p => !param.filter[p.id])
 

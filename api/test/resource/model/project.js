@@ -68,43 +68,6 @@ describe('Project', function() {
 		});
 	});
 
-	describe('destroy', function() {
-
-		it('should delete project', function(done) {
-			Project.storeInstance
-				.get(PROJECT_ID)
-				.then(p => p.destroy())
-				.then(r => database.get(PROJECT_ID))
-				.then(
-					function(result) {
-						// raise error.
-						done('document_found');
-					},
-					function(error) {
-						done();
-					}
-				);
-		});
-
-		it('should delete input when project is deleted', function(done) {
-			Project.storeInstance
-				.get(PROJECT_ID)
-				.then(p => p.destroy())
-				.then(r => database.get(INPUT_ID))
-				.then(
-					function(result) {
-						// raise error.
-						done('document_found');
-					},
-					function(error) {
-						done();
-					}
-				);
-		});
-
-
-	});
-
 	describe('validateForeignKeys', function() {
 
 		it('should work with existent theme', function(done) {
@@ -137,76 +100,6 @@ describe('Project', function() {
 						done();
 					}
 				);
-		});
-
-	});
-
-	describe('save', function() {
-
-		describe('_computeInputsUpdates', function() {
-
-			it('should not touch inputs when datasource is changed', function(done) {
-				let input;
-
-				Promise.all([
-					database.get(INPUT_ID),
-					Project.storeInstance.get(PROJECT_ID)
-				]).then(function(results) {
-					input = results[0];
-
-					results[1].forms[0].name = 'toto';
-					return results[1].save();
-				})
-				.then(r => database.get(INPUT_ID))
-				.then(
-					function(result) {
-						assert.deepEqual(input, result);
-						done();
-					},
-					function(error) {
-						done('document_missing');
-					}
-				);
-			});
-
-			it('should delete input when datasource is deleted', function(done) {
-				Project.storeInstance
-					.get(PROJECT_ID)
-					.then(function(project) {
-						project.forms.splice(0, 1);
-						return project.save();
-					})
-					.then(r => database.get(INPUT_ID))
-					.then(
-						function(result) {
-							// raise error.
-							done('document_found');
-						},
-						function(error) {
-							done();
-						}
-					);
-			});
-
-			it('should delete input when entity is deleted', function(done) {
-				Project.storeInstance
-					.get(PROJECT_ID)
-					.then(function(project) {
-						project.entities.splice(0, 1);
-						return project.save();
-					})
-					.then(r => database.get(INPUT_ID))
-					.then(
-						function(result) {
-							// raise error.
-							done('document_found');
-						},
-						function(error) {
-							done();
-						}
-					);
-			});
-
 		});
 
 	});

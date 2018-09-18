@@ -2,14 +2,14 @@
 	<li ng-if="$root.userCtx.type == 'user'"><a ui-sref="main.projects" translate="shared.projects"></a></li>
 	<li class="active" title="{{$ctrl.project.country}}" ng-bind="$ctrl.project.country|maxLength:20"></li>
 	<li class="active" title="{{$ctrl.project.name}}" ng-bind="$ctrl.project.name|maxLength:50"></li>
-	<li><a ui-sref="main.project.structure.collection_form_list" translate="project.collection_form_list"></a></li>
+	<li><a ui-sref="main.project.structure.data_source_list" translate="project.data_source_list"></a></li>
 	<li class="active">{{$ctrl.editableDataSource.name|maxLength:50}}</li>
 </ol>
 
-<div class="alert alert-info" translate="project.collection_form_list_info"></div>
+<div class="alert alert-info" translate="project.data_source_list_info"></div>
 
 <form class="form-horizontal" role="form" name="$ctrl.dsForm" novalidate>
-	<legend translate="project.collection_form_planning"></legend>
+	<legend translate="project.data_source_planning"></legend>
 
 	<div class="project-content-inner">
 
@@ -26,7 +26,7 @@
 				name="name"
 				ng-model="$ctrl.editableDataSource.name"
 				ng-change="$ctrl.onFieldChange()"
-				placeholder="{{'project.form_name_ph'|translate}}"
+				placeholder="{{'project.data_source_name_ph'|translate}}"
 				required />
 
 		</form-group>
@@ -39,9 +39,9 @@
 			help="project.collection_edit_help_sites">
 
 			<element-filter
-				ng-model="$ctrl.editableDataSource.entities"
+				ng-model="$ctrl.editableDataSource.siteIds"
 				ng-change="$ctrl.onFieldChange()"
-				elements="$ctrl.project.entities"
+				elements="$ctrl.project.sites"
 				groups="$ctrl.project.groups"></element-filter>
 
 		</form-group>
@@ -108,13 +108,13 @@
 
 	<!-- [/Specific dates] -->
 
-	<legend translate="project.collection_form_structure"></legend>
+	<legend translate="project.data_source_structure"></legend>
 
 	<!-- [Variables] -->
-	<div ng-if="$ctrl.editableDataSource.elements.length === 0" translate="project.no_variable"></div>
+	<div ng-if="$ctrl.editableDataSource.variables.length === 0" translate="project.no_variable"></div>
 
 	<div ng-sortable="$ctrl.sortableOptions">
-		<div class="panel panel-info" ng-repeat="(index, variable) in $ctrl.editableDataSource.elements">
+		<div class="panel panel-info" ng-repeat="(index, variable) in $ctrl.editableDataSource.variables">
 			<div class="panel-heading" ng-click="$ctrl.onToggleVariableClicked(variable.id)" style="cursor: pointer">
 				<div class="pull-right">
 					<a class="btn btn-xxs btn-default variable-handle">

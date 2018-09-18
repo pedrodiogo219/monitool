@@ -55,12 +55,12 @@ export default class Input {
 		}
 
 		const dataSource = project.forms.find(ds => ds.id === dataSourceId);
-		dataSource.entities.forEach(siteId => {
+		dataSource.siteIds.forEach(siteId => {
 			let periods;
 			if (dataSource.periodicity === 'free')
 				periods = Object.keys(result);
 			else {
-				const site = project.entities.find(site => site.id == siteId);
+				const site = project.sites.find(site => site.id == siteId);
 				const [start, end] = [
 					[project.start, site.start, dataSource.start].filter(a => a).sort().pop(),
 					[project.end, site.end, dataSource.end, new Date().toISOString().substring(0, 10)].filter(a => a).sort().shift()

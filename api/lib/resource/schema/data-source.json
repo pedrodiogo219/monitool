@@ -4,7 +4,7 @@
 
 	"type": "object",
 	"additionalProperties": false,
-	"required": ["id", "name", "periodicity", "start", "end", "elements"],
+	"required": ["id", "name", "periodicity", "start", "end", "siteIds", "variables"],
 	"properties": {
 		"id": {
 			"$ref": "#/definitions/uuid"
@@ -13,7 +13,7 @@
 			"type": "string",
 			"minLength": 1
 		},
-		"entities": {
+		"siteIds": {
 			"type": "array",
 			"items": { "$ref": "#/definitions/uuid" }
 		},
@@ -42,7 +42,7 @@
 				{ "type": "string", "format": "date" }
 			]
 		},
-		"elements": { "type": "array" }
+		"variables": { "type": "array" }
 	},
 
 	"definitions": {
