@@ -95,12 +95,48 @@ function* _generatePeriods(project, indicator, filter) {
 	}
 }
 
+import exprEval from 'expr-eval';
+
+
+
+function _getMandatoryParameters(formula, parameter) {
+
+	function makeTree(tokens) {
+		const node = tokens.pop();
+
+		if (node.type === 'IOP1') {
+			node.children = [makeTree(tokens)];
+			node.isComputable = node.child.isComputable;
+		}
+		else if (node.type === 'IOP2') {
+			node.children = [makeTree(tokens), makeTree(tokens)];
+			node.isComputable = node.children.every(child => child.isComputable);
+		}
+		else if (node.type === 'INUMBER') {
+			node.isComputable = true;
+		}
+		else if (node.type === 'IVAR') {
+			node.isComputable = false;
+		}
+
+		return node;
+	}
+
+	const tree = makeTree(exprEval.Parser.parse(formula).tokens);
+
+
+	// const parameters = new Set();
+}
+
+
 
 // intersection of sites that are in this computation
 function* _generateSites(project, indicator, filter) {
 	// no entity dimension if already filtered as much as possible.
 	if (filter.entity && (/*filter.entity.length < 2 || */filter.entity.final))
 		return;
+
+	_getMandatoryParameters(indicator.computation.formula)
 
 	const parameters = Object.values(indicator.computation.parameters);
 	const dataSources = project.forms.filter(ds => {
